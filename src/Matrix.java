@@ -48,8 +48,12 @@ public class Matrix {
     int i, j;
     // ALGORITMA
     for (i = 0; i < this.row; i++) {
+      // Create list of float value
+      String[] lineInput;
+      lineInput = sc.nextLine().split(" ");
       for (j = 0; j < this.col; j++) {
-        this.M[i][j] = input.nextFloat();
+        // fill matrix from lineInput content
+        this.M[i][j] = Integer.parseInt(lineInput[j]);
       }
     }
   }
