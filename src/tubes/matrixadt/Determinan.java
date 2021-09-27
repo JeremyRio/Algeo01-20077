@@ -17,10 +17,13 @@ public class Determinan {
     // ALGORITMA
     hasil = 0;
     if (M.Size() == 1) {
+      // Basis jika matrix 1x1
       hasil = M.getELMT(0, 0);
     } else if (M.Size() == 4) {
+      // Basis jika matrix 2x2;
       hasil = (M.getELMT(0, 0) * M.getELMT(1, 1)) - (M.getELMT(0, 1) * M.getELMT(1, 0));
     } else {
+      // Membuat submatrix kofaktor
       for (k = 0; k < M.getCol(); k++) {
         iRow = 0;
         for (i = 1; i < M.getRow(); i++) {
