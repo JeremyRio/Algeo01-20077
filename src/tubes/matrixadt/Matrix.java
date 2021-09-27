@@ -44,7 +44,7 @@ public class Matrix {
 
   public void readMatrix() {
     // KAMUS LOKAL
-    Scanner input = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);
     int i, j;
     // ALGORITMA
     for (i = 0; i < this.row; i++) {
@@ -78,21 +78,51 @@ public class Matrix {
     return (this.row * this.col);
   }
 
-  public void operasiOBE(Matrix M, int i1, int i2, float k) {
+  public void switchRow(int i1, int i2) {
     // KAMUS LOKAL
     int j;
+    float temp;
     // ALGORITMA
-    for (j = 0; j < M.col; j++) {
-      M.setELMT(i1, j, M.getELMT(i1, j) + k * M.getELMT(i2, j));
+    for (j = 0; j < col; j++) {
+      // temp = getELMT(i1, j);
+      // setELMT(i1, j, getELMT(i2, j));
+      // setELMT(i2, j, temp);
+      temp = this.M[i1][j];
+      this.M[i1][j] = this.M[i2][j];
+      this.M[i2][j] = temp;
     }
   }
 
-  public void perkalianOBE(Matrix M, int i, float k) {
+  public void copyMatrix(Matrix outM) {
     // KAMUS LOKAL
-    int j;
+    int i, j;
     // ALGORITMA
-    for (j = 0; j < M.col; j++) {
-      M.setELMT(i, j, k * M.getELMT(i, j));
+    for (i = 0; i < outM.getRow(); i++) {
+      for (j = 0; j < outM.getCol(); j++) {
+        outM.setELMT(i, j, this.getELMT(i, j));
+      }
+    }
+  }
+
+  public Matrix transpose(Matrix M) {
+    /* KAMUS */
+    int i,j;
+    Matrix Mout = new Matrix(M.getRow(), M.getCol());
+    /* ALGORITMA */
+    for(i=0;i<M.getRow();i++) {
+        for(j=0;j<M.getCol();j++) {
+            Mout.setELMT(j, i, M.getELMT(i, j));
+        }
+    }
+  return Mout;
+}
+
+  public void operationRow(int i1, int i2, float k) {
+  // KAMUS LOKAL
+  int j;
+  // ALGORITMA
+  for (j = 0; j < col; j++) {
+      setELMT(i1, j, getELMT(i1, j) - k * getELMT(i2, j));
     }
   }
 }
