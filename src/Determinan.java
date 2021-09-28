@@ -1,14 +1,9 @@
 package tubes.matrixadt;
 
-/**
- *
- * @author Jeremy
- */
-
 public class Determinan {
 
   // METHOD
-  public float detCofactor(Matrix M) {
+  public static float detCofactor(Matrix M) {
     // KAMUS LOKAL
     int i, j, k;
     int iCol, iRow;
@@ -46,7 +41,7 @@ public class Determinan {
     return hasil;
   }
 
-  public float detReduksi(Matrix M) {
+  public static float detReduksi(Matrix M) {
     // KAMUS LOKAL
     float det = 1;
     int i, j, k;
@@ -54,8 +49,8 @@ public class Determinan {
     Matrix copyM = new Matrix(M.getRow(), M.getCol());
     // ALGORITMA
     M.copyMatrix(copyM);
-    copyM.displayMatrix();
-    System.out.println("\n===========");
+    System.out.println();
+    System.out.println("======= ALUR REDUKSI =======");
     for (i = 0; i < copyM.getRow() - 1; i++) {
       if (copyM.getELMT(i, i) == 0) {
         boolean flag = true;
@@ -68,7 +63,7 @@ public class Determinan {
           }
         }
         copyM.displayMatrix();
-        System.out.println("\n===========");
+        System.out.println("===========");
       }
       for (j = i + 1; j < copyM.getRow(); j++) {
         if (copyM.getELMT(j, i) != 0) {
@@ -76,7 +71,7 @@ public class Determinan {
         }
       }
       copyM.displayMatrix();
-      System.out.println("\n===========");
+      System.out.println("===========");
     }
     for (i = 0; i < copyM.getRow(); i++) {
       det *= copyM.getELMT(i, i);

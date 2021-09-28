@@ -124,6 +124,30 @@ public class Matrix {
     }
   }
 
+  public static void switchRowEmpty(Matrix m) {
+    // Menempatkan suatu baris kosong ke bagian bawah matrix tersebut
+    for (int i = 0; i < m.row; i++) {
+      if (isRowEmpty(m, i)) {
+        for (int j = i + 1; j < m.row; j++) {
+          if (!isRowEmpty(m, j)) {
+            m.switchRow(i, j);
+          }
+        }
+      }
+    }
+  }
+
+  public static void changeZerovalue(Matrix m) {
+    // Menyesuaikan elemen bernilai nol menjadi absolut
+    for (int i = 0; i < m.row; i++) {
+      for (int j = 0; j < m.col; j++) {
+        if (m.M[i][j] == -0.0) {
+          m.M[i][j] = Math.abs(m.M[i][j]);
+        }
+      }
+    }
+  }
+
   public Matrix transpose(Matrix M) {
     // KAMUS LOKAL
     int i, j;
@@ -135,6 +159,49 @@ public class Matrix {
       }
     }
     return Mout;
+  }
+
+  public static Matrix getMatKoef(Matrix m) {
+    // Buat matrix koefisien
+    // KAMUS LOKAL
+    Matrix matKoef = new Matrix(m.row, m.col - 1);
+    int i, j;
+    // ALGORITMA
+    for (i = 0; i < matKoef.row; i++) {
+      for (j = 0; j < matKoef.col; j++) {
+        matKoef.M[i][j] = m.M[i][j];
+      }
+    }
+
+    return matKoef;
+  }
+
+  public static Matrix createAug(Matrix koef, Matrix cons)
+  // Buat matrix augmented
+  {
+    Matrix result = new Matrix(koef.row, koef.col + 1);
+    for (int i = 0; i < koef.row; i++) {
+      for (int j = 0; j < result.col - 1; j++) {
+        result.M[i][j] = koef.M[i][j];
+      }
+    }
+    for (int k = 0; k < result.row; k++) {
+      result.M[k][result.col - 1] = cons.M[k][0];
+    }
+    return result;
+  }
+
+  public static Matrix getMatCons(Matrix m)
+  // Buat matrix konstanta
+  {
+    Matrix matCons = new Matrix(m.row, 1);
+    int i;
+
+    for (i = 0; i < matCons.row; i++) {
+      matCons.M[i][0] = m.M[i][m.col - 1];
+    }
+
+    return matCons;
   }
 
   public Matrix multiplyMatrix(Matrix m1, Matrix m2) {
@@ -155,74 +222,36 @@ public class Matrix {
     return m3;
   }
 
-  public void Cramer(Matrix M) {
-    // Mendapatkan Matrix sebenarnya
-    // KAMUS LOKAL
-    int lastCol = M.getCol() - 1;
-    Determinan det = new Determinan();
-    float detCramer, detM;
-    Matrix copy, hasil;
-    // ALGORITMA
-    hasil = new Matrix(lastCol, 0);
-    copy = new Matrix(M.getRow(), lastCol);
-    detM = det.detCofactor(M);
-    for (int k = 0; k < lastCol; k++) {
-      M.copyMatrix(copy);
-      for (int i = 0; i < M.getRow(); i++) {
-        copy.setELMT(i, k, M.getELMT(i, lastCol));
+  public static boolean isRowEmpty(Matrix m, int i) {
+    // cek suatu baris kosong
+    int count = 0;
+    int index = 0;
+    while (count == 0 && index < m.col) {
+      if (m.M[i][index] != 0) {
+        count++;
       }
-      detCramer = det.detCofactor(copy);
-      hasil.setELMT(k, 0, detCramer / detM);
+      index++;
     }
+    return (count == 0);
   }
 
-  public Matrix gaussInverse(Matrix M) {
-    // KAMUS LOKAL
-    int i, j, k;
-    Matrix copyM = new Matrix(M.getRow(), M.getCol());
-    Matrix idM = new Matrix(M.getRow(), M.getCol());
-    // ALGORITMA
-    M.copyMatrix(copyM);
-    M.copyMatrix(idM);
-    idM.setIdentity();
-    for (i = 0; i < copyM.getRow(); i++) {
-      if (copyM.getELMT(i, i) == 0) {
-        boolean flag = true;
-        k = i + 1;
-        while (k < copyM.getRow() && flag) {
-          if (copyM.getELMT(k, i) != 0) {
-            idM.switchRow(i, k);
-            copyM.switchRow(i, k);
-            flag = false;
-          }
-        }
+  public static boolean isUnderEmpty(Matrix m, int i, int j) {
+    // Mengecek elemen-elemen dibawah elemen terkini, kosong atau tidak
+    int count, iRow;
+    count = 0;
+    iRow = i + 1;
+    while (count == 0 && iRow < m.row) {
+      if (m.M[iRow][j] != 0) {
+        count++;
       }
-
-      if (copyM.getELMT(i, i) != 1) {
-        idM.divideRow(i, copyM.getELMT(i, i));
-        copyM.divideRow(i, copyM.getELMT(i, i));
-      }
-
-      for (j = 0; j < copyM.getRow(); j++) {
-        if (copyM.getELMT(j, i) != 0 && i != j) {
-          idM.operationRow(j, i, copyM.getELMT(j, i));
-          copyM.operationRow(j, i, copyM.getELMT(j, i));
-        }
-      }
+      iRow++;
     }
-    return idM;
+    return (count == 0);
   }
 
-  public Matrix inverseSPL(Matrix M) {
-    Matrix kons = new Matrix(M.getRow(), 1);
-    Matrix copy = new Matrix(M.getRow(), M.getCol() - 1);
-    Matrix hasil;
-    for (int i = 0; i < M.getRow(); i++) {
-      kons.setELMT(i, 0, M.getELMT(i, M.getCol() - 1));
-    }
-    M.copyMatrix(copy);
-    copy = M.gaussInverse(copy);
-    hasil = M.multiplyMatrix(copy, kons);
-    return hasil;
-  }
+
+
+  
+
+  
 }

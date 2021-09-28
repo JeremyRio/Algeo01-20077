@@ -23,17 +23,19 @@ class mainProgram {
     int N = 3;
     M = new Matrix(N, 2);
     F = new IOFile("test//testing.txt");
-    F.readFile(M);
+    // F.readFile(M);
     // M.readMatrix();
     M.displayMatrix();
     System.out.println("\n!====!");
-    Interpolasi inter = new Interpolasi();
+    InterpolasiRegresi inter = new InterpolasiRegresi();
     inter.interpolasiSPL(M, N, x);
     // Determinan d = new Determinan();
     // det = d.detReduksi(M);
     // System.out.println("A");
     // System.out.println(det);
     // M.inverseSPL(M);
+    char a = 'r';
+    System.out.println(a);
   }
 
 }
