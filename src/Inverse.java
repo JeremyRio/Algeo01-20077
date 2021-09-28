@@ -1,5 +1,3 @@
-package tubes.matrixadt;
-
 public class Inverse {
 
   public static Matrix getCofMatrix(Matrix M, int pivotrow, int pivotcol) {

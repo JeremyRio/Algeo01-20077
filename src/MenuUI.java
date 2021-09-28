@@ -1,5 +1,3 @@
-package tubes.matrixadt;
-
 import java.util.*;
 
 class MenuUI {

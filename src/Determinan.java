@@ -1,5 +1,3 @@
-package tubes.matrixadt;
-
 public class Determinan {
 
   // METHOD
