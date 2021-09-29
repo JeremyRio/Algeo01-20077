@@ -269,5 +269,34 @@ public class Matrix {
     }
     return hasil;
   }
-
+  public static boolean isDiagonalOne(Matrix M) {
+    /* KAMUS LOKAL */
+    int i;
+    boolean flag = true;
+    /* ALGORITMA  */
+    i = 0;
+    while (i<M.getRow() && flag) {
+        if (M.getELMT(i, i) != 1) {
+            flag = false;
+        }
+        i++;
+    }
+    return flag;
+  }
+  public static int getLeadingOne(Matrix M, int row) {
+    /* KAMUS */
+    int j = 0;
+    int idxLead = -1;
+    boolean found = false;
+    /* ALGORITMA  */
+    // Iterasi untuk mencari leading one di tiap baris
+    while (j<M.getCol() && (found == false)) {
+        if (M.getELMT(row, j) == 1) {
+            idxLead = j;
+            found = true;
+        }
+        j++;
+    }
+    return idxLead;
+  }
 }
