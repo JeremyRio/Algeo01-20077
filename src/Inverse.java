@@ -40,7 +40,7 @@ public class Inverse {
     /* KAMUS */
     int i, j;
     int sign = 1;
-    float cofactor;
+    double cofactor;
     Matrix cof = new Matrix(M.getRow(), M.getCol());
     Matrix tempcof = new Matrix(M.getRow(), M.getCol());
     /* ALGORITMA */
@@ -73,7 +73,7 @@ public class Inverse {
     Matrix norminverse = new Matrix(M.getRow(), M.getCol());
     Matrix adj = new Matrix(M.getRow(), M.getCol());
     Matrix inverse = new Matrix(M.getRow(), M.getCol());
-    float valueInv, det;
+    double valueInv, det;
 
     /* ALGORITMA */
     // Ambil matriks adjoin dari M dan masukkan ke adj

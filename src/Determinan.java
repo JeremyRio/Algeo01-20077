@@ -2,11 +2,11 @@ public class Determinan {
 
   // METHOD
   // Menghasilkan determinan dengan cara ekspansi kofaktor dari Matrix M
-  public static float detCofactor(Matrix M) {
+  public static double detCofactor(Matrix M) {
     // KAMUS LOKAL
     int i, j, k;
     int iCol, iRow;
-    float hasil;
+    double hasil;
     Matrix cof = new Matrix(M.getRow() - 1, M.getCol() - 1);
     // ALGORITMA
     hasil = 0;
@@ -43,9 +43,9 @@ public class Determinan {
   }
 
   // Menghasilkan determinan dengan cara retuksi dari Matrix M
-  public static float detReduksi(Matrix M) {
+  public static double detReduksi(Matrix M) {
     // KAMUS LOKAL
-    float det = 1;
+    double det = 1;
     int i, j, k;
     int count = 0;
     Matrix copyM = new Matrix(M.getRow(), M.getCol());

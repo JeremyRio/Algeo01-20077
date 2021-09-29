@@ -14,6 +14,7 @@ public class IOFile {
   }
 
   /* Method */
+  // Membuka file
   public void openFile() {
     try {
       this.file = new Scanner(new File(this.fileName));
@@ -23,6 +24,7 @@ public class IOFile {
     }
   }
 
+  // Menutup file
   public void closeFile() {
     file.close();
   }
@@ -75,7 +77,7 @@ public class IOFile {
     return M;
   }
 
-  // Membaca file matrix untuk Interpolasi dan dilakukan proses Interpolasi
+  // Membaca file matrix khusus Interpolasi
   public Matrix readFileInterpolasi() {
     // KAMUS LOKAL
     int i, j, n;
@@ -84,6 +86,24 @@ public class IOFile {
     n = readRow() - 1;
     openFile();
     M = new Matrix(n, 2);
+    for (i = 0; i < M.getRow(); i++) {
+      for (j = 0; j < M.getCol(); j++) {
+        M.setELMT(i, j, file.nextFloat());
+      }
+    }
+    return M;
+  }
+
+  // Membaca file matrix khusus Regresi
+  public Matrix readFileRegresi() {
+    // KAMUS LOKAL
+    int i, j, m, n;
+    Matrix M;
+    // ALGORITMA
+    m = readRow();
+    n = readCol();
+    openFile();
+    M = new Matrix(m, n);
     for (i = 0; i < M.getRow(); i++) {
       for (j = 0; j < M.getCol(); j++) {
         M.setELMT(i, j, file.nextFloat());
@@ -102,40 +122,17 @@ public class IOFile {
     return x;
   }
 
-  public Matrix readK(int n) {
-    // KAMUS LOKAL
-    int i;
-    Matrix k = new Matrix(n, 1);
-    // ALGORITMA
-    for (i = 0; i < k.getRow(); i++) {
-      k.setELMT(i, 0, file.nextFloat());
-    }
-    return k;
-  }
-
-  public Matrix readFileRegresi(int n) {
-    // KAMUS LOKAL
-    int i, j;
-    Matrix M;
-    // ALGORITMA
-    M = new Matrix(n + 1, n + 2);
-    for (i = 0; i < M.getRow(); i++) {
-      for (j = 0; j < M.getCol(); j++) {
-        M.setELMT(i, j, file.nextFloat());
-      }
-    }
-    closeFile();
-    return M;
-  }
-
+  // Menampilkan display Save
   public static void displaySave() {
-    System.out.println();
+    System.out.println("==================================");
     System.out.println("Apakah keluaran ingin disimpan dalam folder \"output\"?");
     System.out.println("1. Iya");
     System.out.println("2. Tidak");
+    System.out.println("==================================");
     System.out.print(">Masukan: ");
   }
 
+  // Menuliskan Matrix ke dalam file
   public static void writeMatrix(Matrix M, String fileName) {
     // KAMUS LOKAL
     int i, j;
@@ -153,10 +150,11 @@ public class IOFile {
       }
       out.close();
     } catch (Exception e) {
-      ;
+      System.out.println("Error dalam writeMatrix");
     }
   }
 
+  // Melakukan save File untuk metode Inverse
   public static void saveFileInverse(Matrix hasil) {
     // KAMUS LOKAL
     int opsi;
@@ -178,6 +176,7 @@ public class IOFile {
     }
   }
 
+  // Melakukan save File untuk metode SPL
   public static void saveFileSPL(Matrix hasil) {
     // KAMUS LOKAL
     int opsi;
@@ -201,6 +200,7 @@ public class IOFile {
     }
   }
 
+  // Melakukan save File secara umum
   public static void saveFile(String m) {
     // KAMUS LOKAL
     int opsi;

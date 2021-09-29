@@ -5,10 +5,11 @@ class MenuUI {
   static Scanner sc = new Scanner(System.in);
 
   public static void displayTipe() {
-    System.out.println();
+    System.out.println("==================================");
     System.out.println("Tipe masukan yang akan digunakan?");
     System.out.println("1. Keyboard");
     System.out.println("2. File");
+    System.out.println("==================================");
     System.out.print(">Masukan: ");
   }
 
@@ -17,7 +18,7 @@ class MenuUI {
     String pilihan;
     int m, n, tipe;
     Matrix ab, a, hasilM, k;
-    float hasil, x;
+    double hasil, x;
     IOFile f;
     String temp;
 
@@ -65,9 +66,12 @@ class MenuUI {
         System.out.println();
         switch (pilihan) {
           case "1":
-            SPL.GaussElimination(ab);
+            hasilM = SPL.getRowEchelon(ab);
+            SPL.GaussElimination(hasilM);
             break;
           case "2":
+            hasilM = SPL.elimGaussJordan(ab);
+            SPL.getGaussSolutions(hasilM);
             break;
           case "3":
             hasil = Determinan.detCofactor(Matrix.getMatKoef(ab));
@@ -79,7 +83,8 @@ class MenuUI {
               hasilM = SPL.inverseSPL(ab);
               System.out.println("Solusi Inverse: ");
               for (int i = 0; i < hasilM.getRow(); i++) {
-                System.out.println("X" + (i + 1) + " = " + hasilM.getELMT(i, 0));
+                System.out.printf("X" + (i + 1) + " = %.6f", hasilM.getELMT(i, 0));
+                System.out.println();
               }
               IOFile.saveFileSPL(hasilM);
             }
@@ -90,11 +95,13 @@ class MenuUI {
             if (hasil == 0) {
               temp = "Metode tidak dapat digunakan karena determinan = 0";
               System.out.println(temp);
+              IOFile.saveFile(temp);
             } else {
               hasilM = SPL.Cramer(ab);
               System.out.println("Solusi Cramer: ");
               for (int i = 0; i < hasilM.getRow(); i++) {
-                System.out.println("X" + (i + 1) + " = " + hasilM.getELMT(i, 0));
+                System.out.printf("X" + (i + 1) + " = " + hasilM.getELMT(i, 0));
+                System.out.println();
               }
               IOFile.saveFileSPL(hasilM);
             }
@@ -146,7 +153,7 @@ class MenuUI {
       case "3":
         System.out.println();
         System.out.println("============== MATRIKS BALIKAN ==============");
-        System.out.println("1. Metode eleminasi Gauss-Jordan");
+        System.out.println("1. Metode Gauss-Jordan");
         System.out.println("2. Metode Adjoint");
         System.out.println("============== MATRIKS BALIKAN ==============");
         System.out.print(">Masukan: ");
@@ -172,7 +179,9 @@ class MenuUI {
           case "1":
             hasil = Determinan.detCofactor(a);
             if (hasil == 0) {
-              System.out.println("Tidak ada matrix balikan karena determinan = 0");
+              temp = "Tidak ada matrix balikan karena determinan = 0";
+              System.out.println(temp);
+              IOFile.saveFile(temp);
             } else {
               hasilM = Inverse.adjoinInverse(a);
               System.out.println("Hasil Inverse Gauss-Jordan: ");
@@ -184,7 +193,9 @@ class MenuUI {
           case "2":
             hasil = Determinan.detCofactor(a);
             if (hasil == 0) {
-              System.out.println("Tidak ada matrix balikan karena determinan = 0");
+              temp = "Tidak ada matrix balikan karena determinan = 0";
+              System.out.println(temp);
+              IOFile.saveFile(temp);
             } else {
               hasilM = Inverse.gaussInverse(a);
               System.out.println("Hasil Inverse Adjoint: ");
@@ -200,19 +211,20 @@ class MenuUI {
         tipe = sc.nextInt();
 
         if (tipe == 1) {
-          System.out.print(">Jumlah data: ");
+          System.out.print(">Masukkan jumlah data: ");
           n = sc.nextInt();
           a = new Matrix(n, 2);
-          System.out.println(">Data: ");
+          System.out.println(">Masukkan Data: ");
           a.readMatrix();
-          System.out.print(">Nilai yang ditaksir: ");
-          x = sc.nextFloat();
+          System.out.print(">Masukkan nilai yang ditaksir: ");
+          x = sc.nextDouble();
         } else {
           System.out.print(">Masukkan path file: ");
           String path = in.nextLine();
           f = new IOFile(path);
           a = f.readFileInterpolasi();
-          x = f.readTaksiran();
+          System.out.print(">Masukkan nilai yang ditaksir: ");
+          x = sc.nextDouble();
         }
 
         hasil = InterpolasiRegresi.interpolasiSPL(a, x);
@@ -227,27 +239,30 @@ class MenuUI {
         if (tipe == 1) {
           System.out.print(">Masukkan jumlah peubah x: ");
           n = sc.nextInt();
-          System.out.print(">Masukkan umlah data sampel: ");
+          System.out.print(">Masukkan jumlah data sampel: ");
           m = sc.nextInt();
           System.out.println(">Masukkan data sampel: ");
           a = new Matrix(m, n + 1);
           a.readMatrix();
-          System.out.println(">Nilai x yang akan ditaksir: ");
-          k = new Matrix(n, 1);
+          System.out.println(">Masukkan nilai X yang akan ditaksir: ");
+          k = new Matrix(1, n);
           k.readMatrix();
         } else {
           System.out.print(">Masukkan path file: ");
           String path = in.nextLine();
           f = new IOFile(path);
-          m = 1;
-          n = 2;
+          a = f.readFileRegresi();
+          k = new Matrix(1, a.getCol() - 1);
+          System.out.println(">Masukkan nilai X yang akan ditaksir: ");
+          k.readMatrixPolinom(a.getCol() - 1);
         }
-        // hasil = InterpolasiRegresi.regresiGandaSPL(m, k);
-        // System.out.println();
-        // message = "Hasil taksir = " + hasil;
-        // System.out.println(message);
-        // IOFile.saveFile(message);
+
+        hasil = InterpolasiRegresi.regresiGandaSPL(a, k);
+        message = "Hasil taksir = " + hasil;
+        System.out.println(message);
+        IOFile.saveFile(message);
         break;
+
       case "6":
         System.exit(0);
         break;

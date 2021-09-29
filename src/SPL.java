@@ -1,6 +1,7 @@
 public class SPL {
 
   /* =============== MATRIKS BALIKAN ============== */
+  // Menghasilkan nilai variabel SPL dengan metode Inverse
   public static Matrix inverseSPL(Matrix M) {
     Matrix kons = new Matrix(M.getRow(), 1);
     Matrix koef = new Matrix(M.getRow(), M.getCol() - 1);
@@ -15,7 +16,7 @@ public class SPL {
   /* =============== CRAMER ============== */
   public static Matrix Cramer(Matrix M) {
     // KAMUS LOKAL
-    float detCramer, detM;
+    double detCramer, detM;
     Matrix hasil, koef;
     // ALGORITMA
     hasil = new Matrix(M.getRow(), 1);
@@ -27,7 +28,6 @@ public class SPL {
       for (int i = 0; i < M.getRow(); i++) {
         koef.setELMT(i, k, M.getELMT(i, M.getCol() - 1));
       }
-      // copy.displayMatrix();
       detCramer = Determinan.detCofactor(koef);
       hasil.setELMT(k, 0, detCramer / detM);
     }
@@ -35,13 +35,13 @@ public class SPL {
   }
 
   /* =============== SPL GAUSS ============== */
-  public Matrix getRowEchelon(Matrix M) {
+  public static Matrix getRowEchelon(Matrix M) {
     /* KAMUS */
     int i, j, k, l, m, colSwitch;
     int idxColMain = 0; // Set ke 0 karena pasti diganti jika elemen pertama bukan 1
     Matrix M1 = new Matrix(M.getRow(), M.getCol());
     boolean flag, divisorFlag, opRowFlag1 = true, opRowFlag2, switchFlag;
-    float divisor, kValue;
+    double divisor, kValue;
     /* ALGORITMA */
     // Copy Matriks M ke Matriks M1
 
@@ -128,53 +128,8 @@ public class SPL {
       M1.displayMatrix();
       System.out.println("==============================");
     }
+    Matrix.changeZerovalue(M1);
     return M1;
-  }
-
-  public static void GaussElimination(Matrix M) {
-    /* KAMUS */
-    int i, j;
-    int zeroCounter = 0;
-    float result[] = new float[M.getCol() - 1];
-    /* ALGORITMA */
-    // Mengecek baris paling bawah
-    i = (M.getRow() - 1);
-    j = 0;
-    while (j < M.getCol()) {
-      // Menghitung jumlah angka 0 di baris paling bawah
-      if (M.getELMT(i, j) == 0) {
-        zeroCounter++;
-      }
-      j++;
-    }
-    // Jika baris paling bawah semuanya 0, maka SPL memiliki solusi banyak
-    if (zeroCounter == M.getCol()) {
-      ;
-      // Jika baris paling bawah 0 tetapi ada angka di kolom paling kanan, SPL tidak
-      // memiliki solusi
-    } else if (zeroCounter == M.getCol() - 1) {
-      System.out.println("SPL tidak memiliki solusi");
-      // Jika baris paling bawah memiliki 0 yang lebih sedikit daripada jumlah kolom
-      // dikurang satu, maka setiap elemen punya solusi
-    } else if (zeroCounter < M.getCol() - 1) {
-      // Mulai hitung dari paling bawah, karena memiliki variabel paling sedikit
-      for (i = M.getRow() - 1; i >= 0; i--) {
-        // Set elemen paling kanan ke array urutan paling kanan
-        result[i] = M.getELMT(i, (M.getCol() - 1));
-
-        // Pengurangan setiap baris
-        for (j = i + 1; j < (M.getCol() - 1); j++) {
-          result[i] -= M.getELMT(i, j) * result[j];
-        }
-        // Memastikan bahwa hasil akan dibagi koefisien didepan x (jika terjadi bug pada
-        // matriks eselon baris)
-        result[i] = result[i] / M.getELMT(i, i);
-      }
-      System.out.println("Solusi SPL: ");
-      for (i = 0; i < M.getCol() - 1; i++) {
-        System.out.println("X" + (i + 1) + " = " + result[i]);
-      }
-    }
   }
 
   /* =============== SPL GAUSS JORDAN ============== */
@@ -230,7 +185,7 @@ public class SPL {
         continue;
       }
 
-      float divider;
+      double divider;
       divider = mKoef.M[pivotRow][pivotCol];
 
       // loop untuk mendapatkan leading one suatu baris,
@@ -246,7 +201,7 @@ public class SPL {
         if (k == pivotRow || mKoef.M[k][pivotCol] == 0) {
           continue;
         }
-        float multiplier;
+        double multiplier;
         multiplier = mKoef.M[k][pivotCol];
 
         for (int b = pivotCol; b < mKoef.col; b++) {
@@ -267,49 +222,171 @@ public class SPL {
     return mRes;
   }
 
-  public static void getSolution(Matrix M) {
+  // Parametrik
+  //  Menghasilkan nilai variabel SPL dengan metode Gauss
+  public static void GaussElimination(Matrix M) {
     /* KAMUS */
-    int i, j;
+    int i,j;
     int zeroCounter = 0;
-    float result[] = new float[M.getCol() - 1];
     /* ALGORITMA */
     // Mengecek baris paling bawah
-    i = (M.getRow() - 1);
+    i = (M.getRow()-1);
     j = 0;
-    while (j < M.getCol()) {
-      // Menghitung jumlah angka 0 di baris paling bawah
-      if (M.getELMT(i, j) == 0) {
-        zeroCounter++;
-      }
-      j++;
+    while (j<M.getCol()) {
+        // Menghitung jumlah angka 0 di baris paling bawah
+        if (M.getELMT(i, j) == 0) {
+            zeroCounter++;
+        }
+        j++;
     }
     // Jika baris paling bawah semuanya 0, maka SPL memiliki solusi banyak
     if (zeroCounter == M.getCol()) {
-      ;
-      // Jika baris paling bawah 0 tetapi ada angka di kolom paling kanan, SPL tidak
-      // memiliki solusi
-    } else if (zeroCounter == M.getCol() - 1) {
-      System.out.println("SPL tidak memiliki solusi");
-      // Jika baris paling bawah memiliki 0 yang lebih sedikit daripada jumlah kolom
-      // dikurang satu, maka setiap elemen punya solusi
-    } else if (zeroCounter < M.getCol() - 1) {
-      // Mulai hitung dari paling bawah, karena memiliki variabel paling sedikit
-      for (i = M.getRow() - 1; i >= 0; i--) {
-        // Set elemen paling kanan ke array urutan paling kanan
-        result[i] = M.getELMT(i, (M.getCol() - 1));
-
-        // Pengurangan setiap baris
-        for (j = i + 1; j < (M.getCol() - 1); j++) {
-          result[i] -= M.getELMT(i, j) * result[j];
-        }
-        // Memastikan bahwa hasil akan dibagi koefisien didepan x (jika terjadi bug pada
-        // matriks eselon baris)
-        result[i] = result[i] / M.getELMT(i, i);
-      }
-      System.out.println("Solusi SPL: ");
-      for (i = 0; i < M.getCol() - 1; i++) {
-        System.out.println("X" + (i + 1) + " = " + result[i]);
-      }
+        getGaussSolutions(M);
+    // Jika baris paling bawah 0 tetapi ada angka di kolom paling kanan, SPL tidak memiliki solusi
+    } else if (zeroCounter == M.getCol()-1) {
+        System.out.println("SPL tidak memiliki solusi");
+    // Jika baris paling bawah memiliki 0 yang lebih sedikit daripada jumlah kolom dikurang satu, maka setiap elemen punya solusi
+    } else if ((zeroCounter < M.getCol()-1) && (Matrix.isDiagonalOne(M))) {
+        getGaussSolutions(M);
     }
-  }
+}
+
+  public static void getGaussSolutions(Matrix M) {
+    /* KAMUS */
+    int state[] = new int[M.getCol()-1];
+    /* Penjelasan array state
+       Jika isi array = 0: maka solusi undefined, belum diinisialisasi
+       Jika isi array = 1: maka solusi tersebut eksak, contoh x1 = 20
+       Jika isi array = 2: maka solusi tersebut parametrik, contoh x3 = a
+       Jika isi array = 3: maka solusi tersebut gabungan eksak dan parametrik, contoh x2 = 2*x3 + 20 */
+    
+    // Array untuk menyimpan solusi dalam bentuk eksak
+    double result[] = new double[M.getCol()-1];
+
+    // Array untuk menyimpan solusi dalam bentuk string
+    String Eq[] = new String[M.getCol()-1];
+    int i,j,k;
+    double cValue = 0;
+    String cParam;
+    char variabel = 'p';
+    /* ALGORITMA */
+    // Hitung dari paling bawah dan iterasi ke atas
+    for (i=M.getRow()-1;i>=0;i--) {
+        
+        // Jika ada baris yang isinya 0, skip baris itu dan lanjut iterasi ke atas
+        if (Matrix.isRowEmpty(M, i)) {
+            continue;
+        }
+        // Mengambil index kolom dimana ada angka 1 utama
+        j = Matrix.getLeadingOne(M, i);
+        // Set indeks k yang berjalan berdampingan dengan j
+        k = j;
+        // Asumsi solusi eksak sebagai inisialisasi
+        state[k] = 1;
+        // Ganti ke elemen selanjutnya, artinya start loop dari elemen setelah 1 utama
+        j++;
+        // Ambil nilai konstanta terletak di kolom terakhir
+        cValue = M.getELMT(i, M.getCol()-1);
+
+        // Start looping nilai eksak untuk cValue
+        while (j < M.getCol()-1) {
+            // Skip yang isinya 0
+            if (M.getELMT(i, j) != 0) {
+                // Jika solusi bukan eksak, maka asumsikan solusi harus disubstitusikan
+                // Teorinya karena kalau variabel/kolom itu punya nilai eksak, maka array state akan
+                // diisi dengan angka 1, sehingga percabangan ini tidak jalan, bergeser ke percabangan selanjutnya
+                if (state[j] != 1) {
+                    state[k] = 3;
+                }
+                // Jika solusi eksak, gunakan perhitungan biasa untuk mendapat nilainya
+                if (state[j] == 1) {
+                    cValue -= M.getELMT(i, j) * result[j];
+                } else if (state[j] == 0) { // Kalau masih undefined, artinya kolom itu tidak bisa dicapai percabangan manapun
+                    state[j] = 2; // Set state menjadi bentuk variabel parametrik
+                    Eq[j] = String.valueOf(variabel); // Set variabel berbentuk huruf ke dalam array Eq
+                    variabel++;
+                }
+            }
+            j++;
+        }
+
+        // Lempar nilai cValue yang didapatkan ke dalam array result
+        result[k] = cValue;
+        // Inisialisasi string cParam
+        if (cValue != 0 || state[k] == 1) {
+            // Kalau cValue punya nilai, cParam diinisialisasi dengan cValue
+            cParam = cValue + "";
+        } else {
+            // Kalau tidak, biarkan kosong
+            cParam = "";
+        }
+
+        // Set ke indeks result selanjutnya untuk diproses
+        j = k + 1;
+
+        /* BAGIAN PELEMPARAN VARIABEL KE OUTPUT */
+        // Jika state 3, maka output berupa gabungan angka dan variabel, contohnya -3q + 2r
+        if (state[k] == 3) {
+            while (j < M.getCol()-1) {
+                // Skip yang isinya 0
+                if (M.getELMT(i, j) != 0) {
+                    // Jika mendapat state 2, maka berupa parameter
+                    if (state[j] == 2) {
+                        // Desain output
+                        // Jika nilai positif, maka persamaan akan menjadi negatif, karena berubah tanda melewati =
+                        if (M.getELMT(i, j) > 0) {
+                            // Jika nilai koefisien 1, tidak perlu ditulis angka 1
+                            if (Math.abs(M.getELMT(i, j)) == 1) {
+                                cParam += "-" + Eq[j] + "";
+                            } else { // Jika nilai koefisien bukan 1, maka perlu ditulis koefisien itu
+                                
+                                cParam += "-" + Math.abs(M.getELMT(i, j)) + Eq[j];
+                            }
+                        } else { // Jika nilai negatif, maka persamaan akan menjadi positif, karena berubah tanda melewati =
+                            if (Math.abs(M.getELMT(i, j)) == 1) {
+                                cParam += "+" + Eq[j] + "";
+                            } else {
+                                cParam += "+" + Math.abs(M.getELMT(i, j)) + Eq[j];
+                            }
+                        }
+                    } else if (state[j] == 3) { // Jika mendapat state 3, maka berupa nilai yang dapat disubstitusikan
+                        // Desain output
+                        // Aturan sama seperti di atas
+                        if (M.getELMT(i, j) > 0) {
+                            if (Math.abs(M.getELMT(i, j)) == 1) {
+                                cParam += "-" + "(" + Eq[j] + ")";
+                            } else {
+                                cParam += "-" + Math.abs(M.getELMT(i, j)) + "(" +  Eq[j] + ")";
+                            }
+                        } else {
+                            if (Math.abs(M.getELMT(i, j)) == 1) {
+                                cParam += "+" + "(" + Eq[j] + ")";
+                            } else {
+                                cParam += "+" +  Math.abs(M.getELMT(i, j)) + "(" + Eq[j] + ")";
+                            }
+                        }
+                    }
+                }
+                j++;
+            }
+        }
+
+        // Output cParam yang tadi didesain ke dalam Eq
+        Eq[k] = cParam;
+    }
+
+    // Final cek bagian yang null
+    for (i = 0;i<M.getCol()-1;i++) {
+        if (state[i] == 0) {
+            state[i] = 2;
+            Eq[i] = String.valueOf(variabel);
+            variabel++;
+        }
+    }
+
+    System.out.println("Solusi SPL: ");
+    for (i=0;i<M.getCol()-1;i++) {
+        System.out.println("X" + (i+1) + " = " + Eq[i]);
+    } 
+}
 }
