@@ -67,11 +67,13 @@ class MenuUI {
         switch (pilihan) {
           case "1":
             hasilM = SPL.getRowEchelon(ab);
+            hasilM.displayMatrix();
             SPL.GaussElimination(hasilM);
             break;
           case "2":
             hasilM = SPL.elimGaussJordan(ab);
-            SPL.getGaussSolutions(hasilM);
+            hasilM.displayMatrix();
+            SPL.GaussElimination(hasilM);
             break;
           case "3":
             hasil = Determinan.detCofactor(Matrix.getMatKoef(ab));

@@ -46,8 +46,8 @@ public class SPL {
     // Copy Matriks M ke Matriks M1
 
     M.copyMatrix(M1);
-    M1.displayMatrix();
-    System.out.println("==============================");
+    // M1.displayMatrix();
+    // System.out.println("==============================");
 
     for (i = 0; i < M.getRow(); i++) {
       colSwitch = 0;
@@ -125,8 +125,8 @@ public class SPL {
         }
       }
 
-      M1.displayMatrix();
-      System.out.println("==============================");
+      // M1.displayMatrix();
+      // System.out.println("==============================");
     }
     Matrix.changeZerovalue(M1);
     return M1;
@@ -139,6 +139,7 @@ public class SPL {
 
     mKoef = Matrix.getMatKoef(m);
     mCons = Matrix.getMatCons(m);
+    mRes = new Matrix(m.row, m.col);
     mRes = Matrix.createAug(mKoef, mCons);
 
     int pivotRow, pivotCol;
