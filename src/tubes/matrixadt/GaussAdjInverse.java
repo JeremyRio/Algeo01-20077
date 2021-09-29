@@ -151,24 +151,21 @@ public class GaussAdjInverse {
         float divisor, kValue;
         /* ALGORITMA */
         // Copy Matriks M ke Matriks M1
-        
         M.copyMatrix(M1);
-        M1.displayMatrix();
-        System.out.println("==============================");
 
         for (i=0;i<M.getRow();i++) {
             colSwitch = 0;
             switchFlag = true;
             // Jika elemen diagonal matriks 0 atau lebih dari 1, harus di tukar dengan baris yang tidak nol di kolom yang sama
-            while (colSwitch<M1.getCol() && switchFlag) {
+            while (colSwitch<M1.getCol()-1 && switchFlag) {
                 if (M1.getELMT(i, colSwitch) == 0 || M1.getELMT(i, colSwitch) != 1) {
                     // Set flag switch ke true
                     flag = true;
                     // Set ke baris selanjutnya
                     k = i + 1;
-                    if ((k < M1.getRow()) && (flag)) {
+                    while ((k < M1.getRow()) && (flag)) {
                         // Mencari elemen yang bisa untuk ditukar
-                        if (M1.getELMT(k, colSwitch) != 0) {
+                        if (M1.getELMT(k, colSwitch) != 0 || M1.getELMT(k, colSwitch) == 1) {
                             // Tukar baris ke-i dengan baris ke-k
                             M1.switchRow(i, k);
                             // Sekali sebuah baris ditukar tidak bisa ditukar lagi
@@ -176,6 +173,7 @@ public class GaussAdjInverse {
                             // Set switchFlag ke false agar keluar dari loop
                             switchFlag = false;
                         }
+                        k++;
                     } 
                 } else {
                     switchFlag = false;
@@ -190,7 +188,7 @@ public class GaussAdjInverse {
             divisorFlag = false;
             opRowFlag1 = true;
             j=0;
-            while (j<M.getCol() && (divisorFlag == false) && opRowFlag1) {
+            while (j<M.getCol()-1 && (divisorFlag == false) && opRowFlag1) {
                 if ((M1.getELMT(i, j) != 0)) {
                     // Set pembagi ke angka yang akan dijadikan 1 utama
                     divisor = M1.getELMT(i, j);
@@ -206,6 +204,7 @@ public class GaussAdjInverse {
                     divisorFlag = false;   
                 }
                 j++;
+                
             }
 
             // Membagi sisa baris yang ada 1 utama
@@ -218,7 +217,7 @@ public class GaussAdjInverse {
                 opRowFlag2 = true;
                 m = idxColMain;
                 // Jika bagian bawah 1 utama tidak 0, dilakukan operationRow agar menjadi 0
-                while (m<M1.getCol() && opRowFlag2) {
+                while (m<M1.getCol()-1 && opRowFlag2) {
                     if (M1.getELMT(l, m) == 0) {
                         opRowFlag2 = false;
                     } else if (M1.getELMT(l, m) != 0) {
@@ -229,10 +228,6 @@ public class GaussAdjInverse {
                     m++;
                 }
             }
-
-            
-            M1.displayMatrix();
-            System.out.println("==============================");
         }
         M1.changeZerovalue(M1);
         
@@ -253,11 +248,11 @@ public class GaussAdjInverse {
         } else {
             i = M.getRow()-1;
             // Looping jika semua syarat masih dipenuhi
-            while ((i >= 0) && (!Matrix.isNRowZero(M, i)) && (M.getELMT(M.getRow()-1, M.getCol()-1) == 0)) {
+            while ((i >= 0) && (Matrix.isNRowZero(M, i)) && (M.getELMT(i, M.getCol()-1) == 0)) {
                 i--;    
             }
             // Jika elemen matriks normal isinya 0 semua dan elemen baris dan kolom paling akhir bukan 0, maka solusinya tidak ada
-            if (Matrix.isNRowZero(M, i) && (M.getELMT(M.getRow()-1, M.getCol()-1) != 0)) {
+            if (Matrix.isNRowZero(M, i) && (M.getELMT(i, M.getCol()-1) != 0)) {
                 System.out.println("SPL tidak memiliki solusi");
             } else {
                 getGaussSolutions(M);
