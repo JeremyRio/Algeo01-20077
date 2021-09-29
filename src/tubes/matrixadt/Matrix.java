@@ -115,7 +115,7 @@ public class Matrix {
     }
   }
 
-  public boolean isDiagonalOne(Matrix M) {
+  public static boolean isDiagonalOne(Matrix M) {
     /* KAMUS LOKAL */
     int i;
     boolean flag = true;
@@ -130,7 +130,7 @@ public class Matrix {
     return flag;
   }
 
-  public int getLeadingOne(Matrix M, int row) {
+  public static int getLeadingOne(Matrix M, int row) {
     /* KAMUS */
     int j = 0;
     int idxLead = -1;
@@ -159,7 +159,7 @@ public class Matrix {
     }
   }
 
-  public boolean isRowZero(Matrix M, int row) {
+  public static boolean isRowZero(Matrix M, int row) {
     /* KAMUS */
     int j = 0;
     boolean flag = true;

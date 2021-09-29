@@ -243,7 +243,6 @@ public class GaussAdjInverse {
         /* KAMUS */
         int i,j;
         int zeroCounter = 0;
-        float result[] = new float[M.getCol()-1];
         /* ALGORITMA */
         // Mengecek baris paling bawah
         i = (M.getRow()-1);
@@ -257,13 +256,13 @@ public class GaussAdjInverse {
         }
         // Jika baris paling bawah semuanya 0, maka SPL memiliki solusi banyak
         if (zeroCounter == M.getCol()) {
-            M.getGaussSolutions(M);
+            getGaussSolutions(M);
         // Jika baris paling bawah 0 tetapi ada angka di kolom paling kanan, SPL tidak memiliki solusi
         } else if (zeroCounter == M.getCol()-1) {
             System.out.println("SPL tidak memiliki solusi");
         // Jika baris paling bawah memiliki 0 yang lebih sedikit daripada jumlah kolom dikurang satu, maka setiap elemen punya solusi
-        } else if ((zeroCounter < M.getCol()-1) && (isDiagonalOne(M))) {
-            M.getGaussSolutions(M);
+        } else if ((zeroCounter < M.getCol()-1) && (Matrix.isDiagonalOne(M))) {
+            getGaussSolutions(M);
         }
     }
 
@@ -289,13 +288,12 @@ public class GaussAdjInverse {
         // Hitung dari paling bawah dan iterasi ke atas
         for (i=M.getRow()-1;i>=0;i--) {
             
-
             // Jika ada baris yang isinya 0, skip baris itu dan lanjut iterasi ke atas
-            if (isRowZero(M, i)) {
+            if (Matrix.isRowZero(M, i)) {
                 continue;
             }
             // Mengambil index kolom dimana ada angka 1 utama
-            j = getLeadingOne(M, i);
+            j = Matrix.getLeadingOne(M, i);
             // Set indeks k yang berjalan berdampingan dengan j
             k = j;
             // Asumsi solusi eksak sebagai inisialisasi
