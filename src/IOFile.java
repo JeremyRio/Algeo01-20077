@@ -5,8 +5,8 @@ public class IOFile {
   /* Attribute */
   private Scanner file;
   private String fileName;
-  static Scanner in = new Scanner(System.in);
-  static Scanner sc = new Scanner(System.in);
+  static Scanner in = new Scanner(System.in); // Input String
+  static Scanner sc = new Scanner(System.in); // Input integer/double
 
   /* Konstruktor */
   public IOFile(String fileName) {
@@ -192,6 +192,29 @@ public class IOFile {
         out = new PrintWriter(new File("output/" + nama));
         for (int i = 0; i < hasil.getRow(); i++) {
           out.println("X" + (i + 1) + " = " + hasil.getELMT(i, 0));
+        }
+        out.close();
+      }
+    } catch (Exception e) {
+      System.out.println("Error dalam saveFileSPL");
+    }
+  }
+
+  public static void saveFileParametric(int N, String[] Eq) {
+    // KAMUS LOKAL
+    int opsi;
+    String nama;
+    PrintWriter out;
+    // ALGORITMA
+    try {
+      displaySave();
+      opsi = in.nextInt();
+      if (opsi == 1) {
+        System.out.print(">Nama file (Contoh: test.txt): ");
+        nama = sc.nextLine();
+        out = new PrintWriter(new File("output/" + nama));
+        for (int i = 0; i < N; i++) {
+          out.println("X" + (i + 1) + " = " + Eq[i]);
         }
         out.close();
       }

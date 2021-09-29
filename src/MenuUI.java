@@ -1,8 +1,8 @@
 import java.util.*;
 
 class MenuUI {
-  static Scanner in = new Scanner(System.in);
-  static Scanner sc = new Scanner(System.in);
+  static Scanner in = new Scanner(System.in); // Input String
+  static Scanner sc = new Scanner(System.in); // Input integer/double
 
   public static void displayTipe() {
     System.out.println("==================================");
@@ -67,45 +67,55 @@ class MenuUI {
         switch (pilihan) {
           case "1":
             hasilM = SPL.getRowEchelon(ab);
-            hasilM.displayMatrix();
             SPL.GaussElimination(hasilM);
             break;
           case "2":
             hasilM = SPL.elimGaussJordan(ab);
-            hasilM.displayMatrix();
             SPL.GaussElimination(hasilM);
             break;
           case "3":
-            hasil = Determinan.detCofactor(Matrix.getMatKoef(ab));
-            if (hasil == 0) {
-              temp = "Metode tidak dapat digunakan karena determinan = 0";
+            if ((ab.getCol() - 1 != ab.getRow())) {
+              temp = "Metode tidak dapat digunakan karena tidak bisa dicari determinan";
               System.out.println(temp);
               IOFile.saveFile(temp);
             } else {
-              hasilM = SPL.inverseSPL(ab);
-              System.out.println("Solusi Inverse: ");
-              for (int i = 0; i < hasilM.getRow(); i++) {
-                System.out.printf("X" + (i + 1) + " = %.6f", hasilM.getELMT(i, 0));
-                System.out.println();
+              hasil = Determinan.detCofactor(Matrix.getMatKoef(ab));
+              if (hasil == 0) {
+                temp = "Metode tidak dapat digunakan karena determinan = 0";
+                System.out.println(temp);
+                IOFile.saveFile(temp);
+              } else {
+                hasilM = SPL.inverseSPL(ab);
+                System.out.println("Solusi Inverse: ");
+                for (int i = 0; i < hasilM.getRow(); i++) {
+                  System.out.printf("X" + (i + 1) + " = %.6f", hasilM.getELMT(i, 0));
+                  System.out.println();
+                }
+                IOFile.saveFileSPL(hasilM);
               }
-              IOFile.saveFileSPL(hasilM);
             }
             break;
 
           case "4":
-            hasil = Determinan.detCofactor(Matrix.getMatKoef(ab));
-            if (hasil == 0) {
-              temp = "Metode tidak dapat digunakan karena determinan = 0";
+            if ((ab.getCol() - 1 != ab.getRow())) {
+              temp = "Metode tidak dapat digunakan karena tidak bisa dicari determinan";
               System.out.println(temp);
               IOFile.saveFile(temp);
             } else {
-              hasilM = SPL.Cramer(ab);
-              System.out.println("Solusi Cramer: ");
-              for (int i = 0; i < hasilM.getRow(); i++) {
-                System.out.printf("X" + (i + 1) + " = " + hasilM.getELMT(i, 0));
-                System.out.println();
+              hasil = Determinan.detCofactor(Matrix.getMatKoef(ab));
+              if (hasil == 0) {
+                temp = "Metode tidak dapat digunakan karena determinan = 0";
+                System.out.println(temp);
+                IOFile.saveFile(temp);
+              } else {
+                hasilM = SPL.Cramer(ab);
+                System.out.println("Solusi Cramer: ");
+                for (int i = 0; i < hasilM.getRow(); i++) {
+                  System.out.printf("X" + (i + 1) + " = " + hasilM.getELMT(i, 0));
+                  System.out.println();
+                }
+                IOFile.saveFileSPL(hasilM);
               }
-              IOFile.saveFileSPL(hasilM);
             }
             break;
         }

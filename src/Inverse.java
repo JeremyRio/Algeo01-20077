@@ -69,13 +69,14 @@ public class Inverse {
   }
 
   public static Matrix adjoinInverse(Matrix M) {
+    // KAMUS
     int i, j;
     Matrix norminverse = new Matrix(M.getRow(), M.getCol());
     Matrix adj = new Matrix(M.getRow(), M.getCol());
     Matrix inverse = new Matrix(M.getRow(), M.getCol());
     double valueInv, det;
 
-    /* ALGORITMA */
+    // ALGORITMA
     // Ambil matriks adjoin dari M dan masukkan ke adj
     adj = getAdjoin(M);
 
@@ -134,12 +135,12 @@ public class Inverse {
           }
         }
       }
-
+      // Melakukan pembagian koefisien jika pivot != 1
       if (Mkiri.getELMT(i, i) != 1) {
         Mkanan.divideRow(i, Mkiri.getELMT(i, i));
         Mkiri.divideRow(i, Mkiri.getELMT(i, i));
       }
-
+      // Melakukan OBE pada pivot
       for (j = 0; j < Mkiri.getRow(); j++) {
         if (Mkiri.getELMT(j, i) != 0 && i != j) {
           Mkanan.operationRow(j, i, Mkiri.getELMT(j, i));

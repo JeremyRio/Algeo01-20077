@@ -249,11 +249,11 @@ public class Matrix {
     int j = 0;
     boolean flag = true;
     /* ALGORITMA */
-    while (j<M.getCol()-1 && flag) {
-        if (M.getELMT(row, j) != 0) {
-            flag = false;
-        }
-        j++;
+    while (j < M.getCol() - 1 && flag) {
+      if (M.getELMT(row, j) != 0) {
+        flag = false;
+      }
+      j++;
     }
     return flag;
   }
@@ -272,45 +272,34 @@ public class Matrix {
     return (count == 0);
   }
 
-  public static double Pangkat(double x, int n) {
-    // KAMUS LOKAL
-    int i;
-    double hasil = 1;
-    // ALGORITMA
-    if (n != 0) {
-      for (i = 0; i < n; i++) {
-        hasil *= x;
-      }
-    }
-    return hasil;
-  }
   public static boolean isDiagonalOne(Matrix M) {
     /* KAMUS LOKAL */
     int i;
     boolean flag = true;
-    /* ALGORITMA  */
+    /* ALGORITMA */
     i = 0;
-    while (i<M.getRow() && flag) {
-        if (M.getELMT(i, i) != 1) {
-            flag = false;
-        }
-        i++;
+    while (i < M.getRow() && flag) {
+      if (M.getELMT(i, i) != 1) {
+        flag = false;
+      }
+      i++;
     }
     return flag;
   }
+
   public static int getLeadingOne(Matrix M, int row) {
     /* KAMUS */
     int j = 0;
     int idxLead = -1;
     boolean found = false;
-    /* ALGORITMA  */
+    /* ALGORITMA */
     // Iterasi untuk mencari leading one di tiap baris
-    while (j<M.getCol() && (found == false)) {
-        if (M.getELMT(row, j) == 1) {
-            idxLead = j;
-            found = true;
-        }
-        j++;
+    while (j < M.getCol() && (found == false)) {
+      if (M.getELMT(row, j) == 1) {
+        idxLead = j;
+        found = true;
+      }
+      j++;
     }
     return idxLead;
   }

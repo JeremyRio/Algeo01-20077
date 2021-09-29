@@ -29,7 +29,7 @@ public class InterpolasiRegresi {
       taksir += Math.pow(x, i) * hasil.getELMT(i, 0);
     }
     System.out.println();
-    System.out.println("f(X) = " + rumus);
+    System.out.println("P" + (hasil.getRow() - 1) + "(X) = " + rumus);
     return taksir;
   }
 
