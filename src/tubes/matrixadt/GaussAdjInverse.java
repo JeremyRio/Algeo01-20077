@@ -257,7 +257,7 @@ public class GaussAdjInverse {
         }
         // Jika baris paling bawah semuanya 0, maka SPL memiliki solusi banyak
         if (zeroCounter == M.getCol()) {
-            ;
+            M.getGaussParametrics(M);
         // Jika baris paling bawah 0 tetapi ada angka di kolom paling kanan, SPL tidak memiliki solusi
         } else if (zeroCounter == M.getCol()-1) {
             System.out.println("SPL tidak memiliki solusi");
@@ -280,5 +280,143 @@ public class GaussAdjInverse {
                 System.out.println("X" + (i+1) + " = " + result[i]);
             } 
         }
+    }
+
+    public void getGaussParametrics(Matrix M) {
+        /* KAMUS */
+        int state[] = new int[M.getCol()-1];
+        /* Penjelasan array state
+           Jika isi array = 0: maka solusi undefined, belum diinisialisasi
+           Jika isi array = 1: maka solusi tersebut eksak, contoh x1 = 20
+           Jika isi array = 2: maka solusi tersebut parametrik, contoh x3 = a
+           Jika isi array = 3: maka solusi tersebut gabungan eksak dan parametrik, contoh x2 = 2*x3 + 20 */
+        
+        // Array untuk menyimpan solusi dalam bentuk eksak
+        float result[] = new float[M.getCol()-1];
+
+        // Array untuk menyimpan solusi dalam bentuk string
+        String Eq[] = new String[M.getCol()-1];
+        int i,j,k;
+        float cValue;
+        String cParam;
+        char variabel = 'p';
+        /* ALGORITMA */
+        // Hitung dari paling bawah dan iterasi ke atas
+        for (i=M.getRow()-1;i>=0;i--) {
+            
+
+            // Jika ada baris yang isinya 0, skip baris itu dan lanjut iterasi ke atas
+            if (isRowZero(M, i)) {
+                continue;
+            }
+            j = getLeadingOne(M, i);
+            // Set indeks solusi, contoh x1 di indeks 0
+            k = j;
+            // Asumsi solusi eksak sebagai inisialisasi
+            state[k] = 1;
+            // Ganti ke elemen selanjutnya, artinya start loop dari elemen setelah 1 utama
+            j++;
+            // Ambil nilai konstanta terletak di kolom terakhir
+            cValue = M.getELMT(i, M.getCol()-1);
+
+            // Start looping nilai eksak untuk cValue
+            while (j < M.getCol()-1) {
+                // Skip yang isinya 0
+                if (M.getELMT(i, j) != 0) {
+                    // Jika solusi bukan eksak, maka asumsikan solusi disubstitusikan
+                    if (state[j] != 1) {
+                        state[k] = 3;
+                    }
+                    // Jika solusi eksak, gunakan perhitungan biasa untuk mendapat nilainya
+                    if (state[j] == 1) {
+                        cValue -= M.getELMT(i, j) * result[j];
+                    } else if (state[j] == 0) { // Kalau masih undefined
+                        state[j] = 2; // Set state menjadi bentuk parametrik
+                        Eq[j] = String.valueOf(variabel); // Set variabel berbentuk huruf ke dalam array Eq
+                        variabel++;
+                    }
+                }
+                j++;
+            }
+
+            // Lempar nilai cValue yang didapatkan ke dalam array result
+            result[k] = cValue;
+            // Inisialisasi string cParam
+            if (cValue != 0 || state[k] == 1) {
+                // Kalau cValue punya nilai, cParam diinisialisasi dengan cValue
+                cParam = cValue + "";
+            } else {
+                // Kalau tidak, biarkan kosong
+                cParam = "";
+            }
+
+            // Set ke indeks result selanjutnya untuk diproses
+            j = k + 1;
+
+            /* BAGIAN PELEMPARAN VARIABEL KE OUTPUT */
+            // Jika state 3, maka berupa gabungan. Harus menghitung nilai parameter, jika bukan solusi eksak
+            if (state[k] == 3) {
+                while (j < M.getCol()-1) {
+                    // Skip yang isinya 0
+                    if (M.getELMT(i, j) != 0) {
+                        // Jika mendapat state 2, maka berupa parameter
+                        if (state[j] == 2) {
+                            // Desain output
+                            // Jika nilai positif, maka persamaan akan menjadi negatif, karena berubah tanda melewati =
+                            if (M.getELMT(i, j) > 0) {
+                                // Jika nilai koefisien 1, tidak perlu ditulis angka 1
+                                if (Math.abs(M.getELMT(i, j)) == 1) {
+                                    cParam += "-" + Eq[j] + " ";
+                                } else { // Jika nilai koefisien bukan 1, maka perlu ditulis koefisien itu
+                                    cParam += "-" + Math.abs(M.getELMT(i, j)) + Eq[j];
+                                }
+                            } else { // Jika nilai negatif, maka persamaan akan menjadi positif, karena berubah tanda melewati =
+                                if (Math.abs(M.getELMT(i, j)) == 1) {
+                                    cParam += "+" + Eq[j] + " ";
+                                } else {
+                                    cParam += "+" + Math.abs(M.getELMT(i, j)) + Eq[j];
+                                }
+                            }
+                        } else if (state[j] == 3) { // Jika mendapat state 3, maka berupa nilai yang dapat disubstitusikan
+                            // Desain output
+                            // Aturan sama seperti di atas
+                            if (M.getELMT(i, j) > 0) {
+                                if (Math.abs(M.getELMT(i, j)) == 1) {
+                                    cParam += "-" + "(" + Eq[j] + ")";
+                                } else {
+                                    cParam += "-" + Math.abs(M.getELMT(i, j)) + "(" +  Eq[j] + ")";
+                                }
+                            } else {
+                                if (Math.abs(M.getELMT(i, j)) == 1) {
+                                    cParam += "+" + "(" + Eq[j] + ")";
+                                } else {
+                                    cParam += "+" +  Math.abs(M.getELMT(i, j)) + "(" + Eq[j] + ")";
+                                }
+                            }
+                        }
+                    }
+                    j++;
+                }
+            }
+
+            // Output cParam yang tadi didesain ke dalam Eq
+            Eq[k] = cParam;
+        }
+
+        // Final cek bagian yang null
+        for (i = 0;i<M.getCol()-1;i++) {
+            if (state[i] == 0) {
+                state[i] = 2;
+                Eq[i] = String.valueOf(variabel);
+                variabel++;
+            }
+        }
+
+        
+
+        System.out.println("Solusi SPL: ");
+        for (i=0;i<M.getCol()-1;i++) {
+            System.out.println("X" + (i+1) + " = " + Eq[i]);
+        } 
     }
 }

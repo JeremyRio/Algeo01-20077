@@ -1,15 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tubes.matrixadt;
-
-/**
- *
- * @author Jeremy
- */
 
 import java.util.*;
 
@@ -168,5 +157,19 @@ public class Matrix {
             }
         }
     }
-}
+  }
+
+  public boolean isRowZero(Matrix M, int row) {
+    /* KAMUS */
+    int j = 0;
+    boolean flag = true;
+    /* ALGORITMA */
+    while (j<M.getCol() && flag) {
+        if (M.getELMT(row, j) != 0) {
+            flag = false;
+        }
+        j++;
+    }
+    return flag;
+  }
 }
