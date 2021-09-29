@@ -243,6 +243,20 @@ public class Matrix {
     return (count == 0);
   }
 
+  public static boolean isNRowZero(Matrix M, int row) {
+    /* KAMUS */
+    int j = 0;
+    boolean flag = true;
+    /* ALGORITMA */
+    while (j<M.getCol()-1 && flag) {
+        if (M.getELMT(row, j) != 0) {
+            flag = false;
+        }
+        j++;
+    }
+    return flag;
+  }
+
   public static boolean isUnderEmpty(Matrix m, int i, int j) {
     // Mengecek elemen-elemen dibawah elemen terkini, kosong atau tidak
     int count, iRow;
