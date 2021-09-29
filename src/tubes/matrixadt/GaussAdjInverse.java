@@ -257,32 +257,17 @@ public class GaussAdjInverse {
         }
         // Jika baris paling bawah semuanya 0, maka SPL memiliki solusi banyak
         if (zeroCounter == M.getCol()) {
-            M.getGaussParametrics(M);
+            M.getGaussSolutions(M);
         // Jika baris paling bawah 0 tetapi ada angka di kolom paling kanan, SPL tidak memiliki solusi
         } else if (zeroCounter == M.getCol()-1) {
             System.out.println("SPL tidak memiliki solusi");
         // Jika baris paling bawah memiliki 0 yang lebih sedikit daripada jumlah kolom dikurang satu, maka setiap elemen punya solusi
-        } else if (zeroCounter < M.getCol()-1) {
-            // Mulai hitung dari paling bawah, karena memiliki variabel paling sedikit
-            for (i=M.getRow()-1;i>=0;i--) {
-            // Set elemen paling kanan ke array urutan paling kanan
-                result[i] = M.getELMT(i, (M.getCol()-1));
-
-                // Pengurangan setiap baris
-                for (j=i+1;j<(M.getCol()-1);j++) {
-                    result[i] -= M.getELMT(i, j) * result[j];
-                }
-                // Memastikan bahwa hasil akan dibagi koefisien didepan x (jika terjadi bug pada matriks eselon baris)
-                result[i] = result[i] / M.getELMT(i, i);
-            }
-            System.out.println("Solusi SPL: ");
-            for (i=0;i<M.getCol()-1;i++) {
-                System.out.println("X" + (i+1) + " = " + result[i]);
-            } 
+        } else if ((zeroCounter < M.getCol()-1) && (isDiagonalOne(M))) {
+            M.getGaussSolutions(M);
         }
     }
 
-    public void getGaussParametrics(Matrix M) {
+    public void getGaussSolutions(Matrix M) {
         /* KAMUS */
         int state[] = new int[M.getCol()-1];
         /* Penjelasan array state
@@ -297,7 +282,7 @@ public class GaussAdjInverse {
         // Array untuk menyimpan solusi dalam bentuk string
         String Eq[] = new String[M.getCol()-1];
         int i,j,k;
-        float cValue;
+        float cValue, tempValue = 0;
         String cParam;
         char variabel = 'p';
         /* ALGORITMA */
@@ -309,8 +294,9 @@ public class GaussAdjInverse {
             if (isRowZero(M, i)) {
                 continue;
             }
+            // Mengambil index kolom dimana ada angka 1 utama
             j = getLeadingOne(M, i);
-            // Set indeks solusi, contoh x1 di indeks 0
+            // Set indeks k yang berjalan berdampingan dengan j
             k = j;
             // Asumsi solusi eksak sebagai inisialisasi
             state[k] = 1;
@@ -323,15 +309,17 @@ public class GaussAdjInverse {
             while (j < M.getCol()-1) {
                 // Skip yang isinya 0
                 if (M.getELMT(i, j) != 0) {
-                    // Jika solusi bukan eksak, maka asumsikan solusi disubstitusikan
+                    // Jika solusi bukan eksak, maka asumsikan solusi harus disubstitusikan
+                    // Teorinya karena kalau variabel/kolom itu punya nilai eksak, maka array state akan
+                    // diisi dengan angka 1, sehingga percabangan ini tidak jalan, bergeser ke percabangan selanjutnya
                     if (state[j] != 1) {
                         state[k] = 3;
                     }
                     // Jika solusi eksak, gunakan perhitungan biasa untuk mendapat nilainya
                     if (state[j] == 1) {
                         cValue -= M.getELMT(i, j) * result[j];
-                    } else if (state[j] == 0) { // Kalau masih undefined
-                        state[j] = 2; // Set state menjadi bentuk parametrik
+                    } else if (state[j] == 0) { // Kalau masih undefined, artinya kolom itu tidak bisa dicapai percabangan manapun
+                        state[j] = 2; // Set state menjadi bentuk variabel parametrik
                         Eq[j] = String.valueOf(variabel); // Set variabel berbentuk huruf ke dalam array Eq
                         variabel++;
                     }
@@ -354,7 +342,7 @@ public class GaussAdjInverse {
             j = k + 1;
 
             /* BAGIAN PELEMPARAN VARIABEL KE OUTPUT */
-            // Jika state 3, maka berupa gabungan. Harus menghitung nilai parameter, jika bukan solusi eksak
+            // Jika state 3, maka output berupa gabungan angka dan variabel, contohnya -3q + 2r
             if (state[k] == 3) {
                 while (j < M.getCol()-1) {
                     // Skip yang isinya 0
@@ -366,13 +354,15 @@ public class GaussAdjInverse {
                             if (M.getELMT(i, j) > 0) {
                                 // Jika nilai koefisien 1, tidak perlu ditulis angka 1
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
-                                    cParam += "-" + Eq[j] + " ";
+                                    cParam += "-" + Eq[j] + "";
                                 } else { // Jika nilai koefisien bukan 1, maka perlu ditulis koefisien itu
+                                    tempValue = M.getELMT(i, j);
                                     cParam += "-" + Math.abs(M.getELMT(i, j)) + Eq[j];
+                                    System.out.println(tempValue);
                                 }
                             } else { // Jika nilai negatif, maka persamaan akan menjadi positif, karena berubah tanda melewati =
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
-                                    cParam += "+" + Eq[j] + " ";
+                                    cParam += "+" + Eq[j] + "";
                                 } else {
                                     cParam += "+" + Math.abs(M.getELMT(i, j)) + Eq[j];
                                 }
@@ -411,8 +401,6 @@ public class GaussAdjInverse {
                 variabel++;
             }
         }
-
-        
 
         System.out.println("Solusi SPL: ");
         for (i=0;i<M.getCol()-1;i++) {
