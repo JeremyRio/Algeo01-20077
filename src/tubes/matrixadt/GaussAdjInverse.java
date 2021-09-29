@@ -234,6 +234,8 @@ public class GaussAdjInverse {
             M1.displayMatrix();
             System.out.println("==============================");
         }
+        M1.changeZerovalue(M1);
+        
         return M1;
     }
 

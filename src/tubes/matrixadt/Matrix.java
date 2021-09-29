@@ -125,4 +125,48 @@ public class Matrix {
       setELMT(i1, j, getELMT(i1, j) - k * getELMT(i2, j));
     }
   }
+
+  public boolean isDiagonalOne(Matrix M) {
+    /* KAMUS LOKAL */
+    int i;
+    boolean flag = true;
+    /* ALGORITMA  */
+    i = 0;
+    while (i<M.getRow() && flag) {
+        if (M.getELMT(i, i) != 1) {
+            flag = false;
+        }
+        i++;
+    }
+    return flag;
+  }
+
+  public int getLeadingOne(Matrix M, int row) {
+    /* KAMUS */
+    int j = 0;
+    int idxLead = -1;
+    boolean found = false;
+    /* ALGORITMA  */
+    // Iterasi untuk mencari leading one di tiap baris
+    while (j<M.getCol() && (found == false)) {
+        if (M.getELMT(row, j) == 1) {
+            idxLead = j;
+            found = true;
+        }
+        j++;
+    }
+    return idxLead;
+  }
+  public void changeZerovalue(Matrix m){
+    /* KAMUS */
+    int i,j;
+    /* ALGORITMA */
+    for(i = 0; i < m.row; i++){
+        for(j = 0; j < m.col; j++){
+            if(m.M[i][j] == -0.0){
+                m.M[i][j] = Math.abs(m.M[i][j]);
+            }
+        }
+    }
+}
 }
