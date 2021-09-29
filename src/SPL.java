@@ -3,14 +3,12 @@ public class SPL {
   /* =============== MATRIKS BALIKAN ============== */
   public static Matrix inverseSPL(Matrix M) {
     Matrix kons = new Matrix(M.getRow(), 1);
-    Matrix copy = new Matrix(M.getRow(), M.getCol() - 1);
+    Matrix koef = new Matrix(M.getRow(), M.getCol() - 1);
     Matrix hasil;
-    for (int i = 0; i < M.getRow(); i++) {
-      kons.setELMT(i, 0, M.getELMT(i, M.getCol() - 1));
-    }
-    M.copyMatrix(copy);
-    copy = Inverse.gaussInverse(copy);
-    hasil = M.multiplyMatrix(copy, kons);
+    kons = Matrix.getMatCons(M);
+    koef = Matrix.getMatKoef(M);
+    koef = Inverse.gaussInverse(koef);
+    hasil = M.multiplyMatrix(koef, kons);
     return hasil;
   }
 
@@ -23,6 +21,7 @@ public class SPL {
     hasil = new Matrix(M.getRow(), 1);
     koef = Matrix.getMatKoef(M);
     detM = Determinan.detCofactor(koef);
+
     for (int k = 0; k < M.getCol() - 1; k++) {
       koef = Matrix.getMatKoef(M);
       for (int i = 0; i < M.getRow(); i++) {
@@ -30,7 +29,7 @@ public class SPL {
       }
       // copy.displayMatrix();
       detCramer = Determinan.detCofactor(koef);
-      hasil.setELMT(k, 0, detM / detCramer);
+      hasil.setELMT(k, 0, detCramer / detM);
     }
     return hasil;
   }

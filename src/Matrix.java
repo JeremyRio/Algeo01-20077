@@ -247,9 +247,17 @@ public class Matrix {
     return (count == 0);
   }
 
+  public static float Pangkat(float x, int n) {
+    // KAMUS LOKAL
+    int i;
+    float hasil = 1;
+    // ALGORITMA
+    if (n != 0) {
+      for (i = 0; i < n; i++) {
+        hasil *= x;
+      }
+    }
+    return hasil;
+  }
 
-
-  
-
-  
 }

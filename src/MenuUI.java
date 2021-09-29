@@ -59,7 +59,7 @@ class MenuUI {
           System.out.print(">Masukkan path file: ");
           String path = in.nextLine();
           f = new IOFile(path);
-          ab = f.readFileSPL();
+          ab = f.readFile();
         }
 
         System.out.println();
@@ -147,7 +147,7 @@ class MenuUI {
         System.out.println();
         System.out.println("============== MATRIKS BALIKAN ==============");
         System.out.println("1. Metode eleminasi Gauss-Jordan");
-        System.out.println("2. Metode determinan-adjoint");
+        System.out.println("2. Metode Adjoint");
         System.out.println("============== MATRIKS BALIKAN ==============");
         System.out.print(">Masukan: ");
         pilihan = in.nextLine();
@@ -167,6 +167,7 @@ class MenuUI {
           a = f.readFile();
         }
 
+        System.out.println();
         switch (pilihan) {
           case "1":
             hasil = Determinan.detCofactor(a);
@@ -174,7 +175,7 @@ class MenuUI {
               System.out.println("Tidak ada matrix balikan karena determinan = 0");
             } else {
               hasilM = Inverse.adjoinInverse(a);
-              System.out.println("Hasil Inverse: ");
+              System.out.println("Hasil Inverse Gauss-Jordan: ");
               hasilM.displayMatrix();
               IOFile.saveFileInverse(hasilM);
             }
@@ -186,7 +187,7 @@ class MenuUI {
               System.out.println("Tidak ada matrix balikan karena determinan = 0");
             } else {
               hasilM = Inverse.gaussInverse(a);
-              System.out.println("Hasil Inverse: ");
+              System.out.println("Hasil Inverse Adjoint: ");
               hasilM.displayMatrix();
               IOFile.saveFileInverse(hasilM);
             }
@@ -201,8 +202,8 @@ class MenuUI {
         if (tipe == 1) {
           System.out.print(">Jumlah data: ");
           n = sc.nextInt();
-          System.out.println(">Data: ");
           a = new Matrix(n, 2);
+          System.out.println(">Data: ");
           a.readMatrix();
           System.out.print(">Nilai yang ditaksir: ");
           x = sc.nextFloat();
@@ -210,12 +211,11 @@ class MenuUI {
           System.out.print(">Masukkan path file: ");
           String path = in.nextLine();
           f = new IOFile(path);
-          n = f.readN();
-          a = f.readFileInterpolasi(n);
-          x = f.readX();
+          a = f.readFileInterpolasi();
+          x = f.readTaksiran();
         }
-        hasil = InterpolasiRegresi.interpolasiSPL(a, n, x);
-        System.out.println();
+
+        hasil = InterpolasiRegresi.interpolasiSPL(a, x);
         message = "Hasil taksir = " + hasil;
         System.out.println(message);
         IOFile.saveFile(message);
@@ -239,15 +239,14 @@ class MenuUI {
           System.out.print(">Masukkan path file: ");
           String path = in.nextLine();
           f = new IOFile(path);
-          n = f.readN();
-          k = f.readK(n);
-          a = f.readFileRegresi(n);
+          m = 1;
+          n = 2;
         }
-        hasil = InterpolasiRegresi.regresiGandaSPL(a, k);
-        System.out.println();
-        message = "Hasil taksir = " + hasil;
-        System.out.println(message);
-        IOFile.saveFile(message);
+        // hasil = InterpolasiRegresi.regresiGandaSPL(m, k);
+        // System.out.println();
+        // message = "Hasil taksir = " + hasil;
+        // System.out.println(message);
+        // IOFile.saveFile(message);
         break;
       case "6":
         System.exit(0);

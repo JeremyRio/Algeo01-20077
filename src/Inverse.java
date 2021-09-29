@@ -113,38 +113,42 @@ public class Inverse {
   public static Matrix gaussInverse(Matrix M) {
     // KAMUS LOKAL
     int i, j, k;
-    Matrix copyM = new Matrix(M.getRow(), M.getCol());
-    Matrix idM = new Matrix(M.getRow(), M.getCol());
+    Matrix Mkiri = new Matrix(M.getRow(), M.getCol());
+    Matrix Mkanan = new Matrix(M.getRow(), M.getCol());
+
     // ALGORITMA
-    M.copyMatrix(copyM);
-    M.copyMatrix(idM);
-    idM.setIdentity();
-    for (i = 0; i < copyM.getRow(); i++) {
-      if (copyM.getELMT(i, i) == 0) {
+    M.copyMatrix(Mkiri);
+    M.copyMatrix(Mkanan);
+    // Matrix kanan dijadikan matrix identitas
+    Mkanan.setIdentity();
+    for (i = 0; i < Mkiri.getRow(); i++) {
+      // Melakukan pertukaran jika elemen diagonal ada yang 0
+      if (Mkiri.getELMT(i, i) == 0) {
         boolean flag = true;
         k = i + 1;
-        while (k < copyM.getRow() && flag) {
-          if (copyM.getELMT(k, i) != 0) {
-            idM.switchRow(i, k);
-            copyM.switchRow(i, k);
+        while (k < Mkiri.getRow() && flag) {
+          if (Mkiri.getELMT(k, i) != 0) {
+            Mkanan.switchRow(i, k);
+            Mkiri.switchRow(i, k);
             flag = false;
           }
         }
       }
 
-      if (copyM.getELMT(i, i) != 1) {
-        idM.divideRow(i, copyM.getELMT(i, i));
-        copyM.divideRow(i, copyM.getELMT(i, i));
+      if (Mkiri.getELMT(i, i) != 1) {
+        Mkanan.divideRow(i, Mkiri.getELMT(i, i));
+        Mkiri.divideRow(i, Mkiri.getELMT(i, i));
       }
 
-      for (j = 0; j < copyM.getRow(); j++) {
-        if (copyM.getELMT(j, i) != 0 && i != j) {
-          idM.operationRow(j, i, copyM.getELMT(j, i));
-          copyM.operationRow(j, i, copyM.getELMT(j, i));
+      for (j = 0; j < Mkiri.getRow(); j++) {
+        if (Mkiri.getELMT(j, i) != 0 && i != j) {
+          Mkanan.operationRow(j, i, Mkiri.getELMT(j, i));
+          Mkiri.operationRow(j, i, Mkiri.getELMT(j, i));
         }
       }
     }
-    Matrix.changeZerovalue(copyM);
-    return copyM;
+    // Menghilangkan -0.0
+    Matrix.changeZerovalue(Mkanan);
+    return Mkanan;
   }
 }
