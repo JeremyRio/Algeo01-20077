@@ -1,19 +1,21 @@
 public class Determinan {
 
   // METHOD
-  public static float detCofactor(Matrix M) {
+  // Menghasilkan determinan dengan cara ekspansi kofaktor dari Matrix M
+  public static double detCofactor(Matrix M) {
     // KAMUS LOKAL
     int i, j, k;
     int iCol, iRow;
-    float hasil;
+    double hasil;
     Matrix cof = new Matrix(M.getRow() - 1, M.getCol() - 1);
     // ALGORITMA
     hasil = 0;
+    // Dilakukan ekspansi kofaktor secara rekursif
     if (M.Size() == 1) {
-      // Basis jika matrix 1x1
+      // Basis untuk matrix 1x1
       hasil = M.getELMT(0, 0);
     } else if (M.Size() == 4) {
-      // Basis jika matrix 2x2;
+      // Basis untuk matrix 2x2;
       hasil = (M.getELMT(0, 0) * M.getELMT(1, 1)) - (M.getELMT(0, 1) * M.getELMT(1, 0));
     } else {
       // Membuat submatrix kofaktor
@@ -29,6 +31,7 @@ public class Determinan {
           }
           iRow++;
         }
+        // Mengecek urutan kofaktor apakah negatif atau positif
         if (k % 2 == 0) {
           hasil += M.getELMT(0, k) * detCofactor(cof);
         } else {
@@ -39,17 +42,17 @@ public class Determinan {
     return hasil;
   }
 
-  public static float detReduksi(Matrix M) {
+  // Menghasilkan determinan dengan cara retuksi dari Matrix M
+  public static double detReduksi(Matrix M) {
     // KAMUS LOKAL
-    float det = 1;
+    double det = 1;
     int i, j, k;
     int count = 0;
     Matrix copyM = new Matrix(M.getRow(), M.getCol());
     // ALGORITMA
     M.copyMatrix(copyM);
-    System.out.println();
-    System.out.println("======= ALUR REDUKSI =======");
     for (i = 0; i < copyM.getRow() - 1; i++) {
+      // Melakukan pertukaran baris jika elemen diagonal == 0
       if (copyM.getELMT(i, i) == 0) {
         boolean flag = true;
         k = i + 1;
@@ -60,20 +63,19 @@ public class Determinan {
             count++;
           }
         }
-        copyM.displayMatrix();
-        System.out.println("===========");
       }
+      // Melakukan Operasi Baris Elementer
       for (j = i + 1; j < copyM.getRow(); j++) {
         if (copyM.getELMT(j, i) != 0) {
           copyM.operationRow(j, i, copyM.getELMT(j, i) / copyM.getELMT(i, i));
         }
       }
-      copyM.displayMatrix();
-      System.out.println("===========");
     }
+    // Perkalian elemen diagonal untuk mendapatkan determinan
     for (i = 0; i < copyM.getRow(); i++) {
       det *= copyM.getELMT(i, i);
     }
+    // Determinan dikali -1^count sesuai banyak pertukaran baris
     det *= Math.pow(-1, count);
     return det;
   }

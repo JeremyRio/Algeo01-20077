@@ -1,36 +1,35 @@
 public class SPL {
 
   /* =============== MATRIKS BALIKAN ============== */
+  // Menghasilkan nilai variabel SPL dengan metode Inverse
   public static Matrix inverseSPL(Matrix M) {
     Matrix kons = new Matrix(M.getRow(), 1);
-    Matrix copy = new Matrix(M.getRow(), M.getCol() - 1);
+    Matrix koef = new Matrix(M.getRow(), M.getCol() - 1);
     Matrix hasil;
-    for (int i = 0; i < M.getRow(); i++) {
-      kons.setELMT(i, 0, M.getELMT(i, M.getCol() - 1));
-    }
-    M.copyMatrix(copy);
-    copy = Inverse.gaussInverse(copy);
-    hasil = M.multiplyMatrix(copy, kons);
+    kons = Matrix.getMatCons(M);
+    koef = Matrix.getMatKoef(M);
+    koef = Inverse.gaussInverse(koef);
+    hasil = M.multiplyMatrix(koef, kons);
     return hasil;
   }
 
   /* =============== CRAMER ============== */
   public static Matrix Cramer(Matrix M) {
     // KAMUS LOKAL
-    float detCramer, detM;
+    double detCramer, detM;
     Matrix hasil, koef;
     // ALGORITMA
     hasil = new Matrix(M.getRow(), 1);
     koef = Matrix.getMatKoef(M);
     detM = Determinan.detCofactor(koef);
+
     for (int k = 0; k < M.getCol() - 1; k++) {
       koef = Matrix.getMatKoef(M);
       for (int i = 0; i < M.getRow(); i++) {
         koef.setELMT(i, k, M.getELMT(i, M.getCol() - 1));
       }
-      // copy.displayMatrix();
       detCramer = Determinan.detCofactor(koef);
-      hasil.setELMT(k, 0, detM / detCramer);
+      hasil.setELMT(k, 0, detCramer / detM);
     }
     return hasil;
   }
@@ -42,7 +41,7 @@ public class SPL {
     int idxColMain = 0; // Set ke 0 karena pasti diganti jika elemen pertama bukan 1
     Matrix M1 = new Matrix(M.getRow(), M.getCol());
     boolean flag, divisorFlag, opRowFlag1 = true, opRowFlag2, switchFlag;
-    float divisor, kValue;
+    double divisor, kValue;
     /* ALGORITMA */
     // Copy Matriks M ke Matriks M1
 
@@ -132,11 +131,12 @@ public class SPL {
     return M1;
   }
 
+  // Menghasilkan nilai variabel SPL dengan metode Gauss
   public static void GaussElimination(Matrix M) {
     /* KAMUS */
     int i, j;
     int zeroCounter = 0;
-    float result[] = new float[M.getCol() - 1];
+    double result[] = new double[M.getCol() - 1];
     /* ALGORITMA */
     // Mengecek baris paling bawah
     i = (M.getRow() - 1);
@@ -231,7 +231,7 @@ public class SPL {
         continue;
       }
 
-      float divider;
+      double divider;
       divider = mKoef.M[pivotRow][pivotCol];
 
       // loop untuk mendapatkan leading one suatu baris,
@@ -247,7 +247,7 @@ public class SPL {
         if (k == pivotRow || mKoef.M[k][pivotCol] == 0) {
           continue;
         }
-        float multiplier;
+        double multiplier;
         multiplier = mKoef.M[k][pivotCol];
 
         for (int b = pivotCol; b < mKoef.col; b++) {
@@ -272,7 +272,7 @@ public class SPL {
     /* KAMUS */
     int i, j;
     int zeroCounter = 0;
-    float result[] = new float[M.getCol() - 1];
+    double result[] = new double[M.getCol() - 1];
     /* ALGORITMA */
     // Mengecek baris paling bawah
     i = (M.getRow() - 1);
@@ -309,7 +309,7 @@ public class SPL {
       }
       System.out.println("Solusi SPL: ");
       for (i = 0; i < M.getCol() - 1; i++) {
-        System.out.println("X" + (i + 1) + " = " + result[i]);
+        System.out.println("X" + (i + 1) + " = %6.f" + result[i]);
       }
     }
   }

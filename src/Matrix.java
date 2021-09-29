@@ -2,13 +2,14 @@ import java.util.*;
 
 public class Matrix {
   /* Attribute */
-  float[][] M;
+  static Scanner input = new Scanner(System.in);
+  double[][] M;
   int row;
   int col;
 
   /* Konstruktor */
   public Matrix(int r, int c) {
-    this.M = new float[r][c];
+    this.M = new double[r][c];
     this.row = r;
     this.col = c;
   }
@@ -23,25 +24,34 @@ public class Matrix {
     return this.col;
   }
 
-  public float getELMT(int i, int j) {
+  public double getELMT(int i, int j) {
     return (this.M[i][j]);
   }
 
   // SETTER
-  public void setELMT(int i, int j, float value) {
+  public void setELMT(int i, int j, double value) {
     this.M[i][j] = value;
   }
 
   // INPUT/OUTPUT
   public void readMatrix() {
     // KAMUS LOKAL
-    Scanner input = new Scanner(System.in);
     int i, j;
     // ALGORITMA
     for (i = 0; i < this.row; i++) {
       for (j = 0; j < this.col; j++) {
-        this.M[i][j] = input.nextFloat();
+        this.M[i][j] = input.nextDouble();
       }
+    }
+  }
+
+  public void readMatrixPolinom(int N) {
+    // KAMUS LOKAL
+    int i;
+    // ALGORITMA
+    for (i = 0; i < N; i++) {
+      System.out.print(">X" + (i + 1) + ": ");
+      this.M[0][i] = input.nextDouble();
     }
   }
 
@@ -68,7 +78,7 @@ public class Matrix {
     return (this.row * this.col);
   }
 
-  public void operationRow(int i1, int i2, float k) {
+  public void operationRow(int i1, int i2, double k) {
     // KAMUS LOKAL
     int j;
     // ALGORITMA
@@ -77,7 +87,7 @@ public class Matrix {
     }
   }
 
-  public void divideRow(int i, float k) {
+  public void divideRow(int i, double k) {
     // KAMUS LOKAL
     int j;
     // ALGORITMA
@@ -89,7 +99,7 @@ public class Matrix {
   public void switchRow(int i1, int i2) {
     // KAMUS LOKAL
     int j;
-    float temp;
+    double temp;
     // ALGORITMA
     for (j = 0; j < col; j++) {
       temp = this.M[i1][j];
@@ -206,7 +216,7 @@ public class Matrix {
     // KAMUS LOKAL
     int i, j, k = 0;
     Matrix m3 = new Matrix(m1.getRow(), m2.getCol());
-    float temp = 0;
+    double temp = 0;
     // ALGORITMA
     for (i = 0; i < m1.getRow(); i++) {
       for (j = 0; j < m2.getCol(); j++) {
@@ -247,9 +257,17 @@ public class Matrix {
     return (count == 0);
   }
 
+  public static double Pangkat(double x, int n) {
+    // KAMUS LOKAL
+    int i;
+    double hasil = 1;
+    // ALGORITMA
+    if (n != 0) {
+      for (i = 0; i < n; i++) {
+        hasil *= x;
+      }
+    }
+    return hasil;
+  }
 
-
-  
-
-  
 }
