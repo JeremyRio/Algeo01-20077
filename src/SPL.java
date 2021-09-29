@@ -133,7 +133,7 @@ public class SPL {
   }
 
   /* =============== SPL GAUSS JORDAN ============== */
-  // Eliminasi matrix augmenten dengan metode Gauss-Jordan
+  // Eliminasi matrix augmented dengan metode Gauss-Jordan
   public static Matrix elimGaussJordan(Matrix m) {
     Matrix mRes, mKoef, mCons;
 
@@ -249,7 +249,7 @@ public class SPL {
     } else if ((zeroCounter < M.getCol()-1) && (Matrix.isDiagonalOne(M))) {
         getGaussSolutions(M);
     }
-}
+  }
 
   public static void getGaussSolutions(Matrix M) {
     /* KAMUS */
@@ -388,5 +388,5 @@ public class SPL {
     for (i=0;i<M.getCol()-1;i++) {
         System.out.println("X" + (i+1) + " = " + Eq[i]);
     } 
-}
+  }
 }
