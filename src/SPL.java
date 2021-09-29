@@ -35,7 +35,7 @@ public class SPL {
   }
 
   /* =============== SPL GAUSS ============== */
-  public Matrix getRowEchelon(Matrix M) {
+  public static Matrix getRowEchelon(Matrix M) {
     /* KAMUS */
     int i, j, k, l, m, colSwitch;
     int idxColMain = 0; // Set ke 0 karena pasti diganti jika elemen pertama bukan 1
@@ -128,6 +128,7 @@ public class SPL {
       M1.displayMatrix();
       System.out.println("==============================");
     }
+    Matrix.changeZerovalue(M1);
     return M1;
   }
 
@@ -221,8 +222,6 @@ public class SPL {
     return mRes;
   }
 
-  
-
   // Parametrik
   //  Menghasilkan nilai variabel SPL dengan metode Gauss
   public static void GaussElimination(Matrix M) {
@@ -267,7 +266,7 @@ public class SPL {
     // Array untuk menyimpan solusi dalam bentuk string
     String Eq[] = new String[M.getCol()-1];
     int i,j,k;
-    double cValue, tempValue = 0;
+    double cValue = 0;
     String cParam;
     char variabel = 'p';
     /* ALGORITMA */
@@ -340,9 +339,8 @@ public class SPL {
                             if (Math.abs(M.getELMT(i, j)) == 1) {
                                 cParam += "-" + Eq[j] + "";
                             } else { // Jika nilai koefisien bukan 1, maka perlu ditulis koefisien itu
-                                tempValue = M.getELMT(i, j);
+                                
                                 cParam += "-" + Math.abs(M.getELMT(i, j)) + Eq[j];
-                                System.out.println(tempValue);
                             }
                         } else { // Jika nilai negatif, maka persamaan akan menjadi positif, karena berubah tanda melewati =
                             if (Math.abs(M.getELMT(i, j)) == 1) {
