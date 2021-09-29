@@ -159,9 +159,9 @@ public class GaussAdjInverse {
         for (i=0;i<M.getRow();i++) {
             colSwitch = 0;
             switchFlag = true;
-            // Jika elemen diagonal matriks 0, harus di tukar dengan baris yang tidak nol di kolom yang sama
+            // Jika elemen diagonal matriks 0 atau lebih dari 1, harus di tukar dengan baris yang tidak nol di kolom yang sama
             while (colSwitch<M1.getCol() && switchFlag) {
-                if (M1.getELMT(i, colSwitch) == 0) {
+                if (M1.getELMT(i, colSwitch) == 0 || M1.getELMT(i, colSwitch) != 1) {
                     // Set flag switch ke true
                     flag = true;
                     // Set ke baris selanjutnya
@@ -190,7 +190,7 @@ public class GaussAdjInverse {
             divisorFlag = false;
             opRowFlag1 = true;
             j=0;
-            while (j<M1.getCol() && (divisorFlag == false) && opRowFlag1) {
+            while (j<M.getCol() && (divisorFlag == false) && opRowFlag1) {
                 if ((M1.getELMT(i, j) != 0)) {
                     // Set pembagi ke angka yang akan dijadikan 1 utama
                     divisor = M1.getELMT(i, j);
@@ -241,29 +241,29 @@ public class GaussAdjInverse {
 
     public void GaussElimination(Matrix M) {
         /* KAMUS */
-        int i,j;
-        int zeroCounter = 0;
+        int i;
         /* ALGORITMA */
-        // Mengecek baris paling bawah
-        i = (M.getRow()-1);
-        j = 0;
-        while (j<M.getCol()) {
-            // Menghitung jumlah angka 0 di baris paling bawah
-            if (M.getELMT(i, j) == 0) {
-                zeroCounter++;
+        // Jika semua diagonal isinya 1 dan ukuran matriks nxn+1, contohnya 3x4, maka solusinya pasti unik
+        if (Matrix.isDiagonalOne(M) && (M.getRow() == M.getCol()-1)) {
+            getGaussSolutions(M);
+        // Jika semua diagonal isinya 1 dan ukuran matriks tidak nxn+1, contohnya 4x7, maka solusinya pasti banyak (berbentuk parametrik)
+        } else if (Matrix.isDiagonalOne(M) && (M.getRow() != M.getCol()-1)) {
+            getGaussSolutions(M);
+        // Jika ada baris dibawah yang seluruh nilainya 0, maka solusinya pasti banyak (berbentuk parametrik)
+        } else {
+            i = M.getRow()-1;
+            // Looping jika semua syarat masih dipenuhi
+            while ((i >= 0) && (!Matrix.isNRowZero(M, i)) && (M.getELMT(M.getRow()-1, M.getCol()-1) == 0)) {
+                i--;    
             }
-            j++;
+            // Jika elemen matriks normal isinya 0 semua dan elemen baris dan kolom paling akhir bukan 0, maka solusinya tidak ada
+            if (Matrix.isNRowZero(M, i) && (M.getELMT(M.getRow()-1, M.getCol()-1) != 0)) {
+                System.out.println("SPL tidak memiliki solusi");
+            } else {
+                getGaussSolutions(M);
+            }
         }
-        // Jika baris paling bawah semuanya 0, maka SPL memiliki solusi banyak
-        if (zeroCounter == M.getCol()) {
-            getGaussSolutions(M);
-        // Jika baris paling bawah 0 tetapi ada angka di kolom paling kanan, SPL tidak memiliki solusi
-        } else if (zeroCounter == M.getCol()-1) {
-            System.out.println("SPL tidak memiliki solusi");
-        // Jika baris paling bawah memiliki 0 yang lebih sedikit daripada jumlah kolom dikurang satu, maka setiap elemen punya solusi
-        } else if ((zeroCounter < M.getCol()-1) && (Matrix.isDiagonalOne(M))) {
-            getGaussSolutions(M);
-        }
+        
     }
 
     public void getGaussSolutions(Matrix M) {

@@ -172,4 +172,18 @@ public class Matrix {
     }
     return flag;
   }
+
+  public static boolean isNRowZero(Matrix M, int row) {
+    /* KAMUS */
+    int j = 0;
+    boolean flag = true;
+    /* ALGORITMA */
+    while (j<M.getCol()-1 && flag) {
+        if (M.getELMT(row, j) != 0) {
+            flag = false;
+        }
+        j++;
+    }
+    return flag;
+}
 }
