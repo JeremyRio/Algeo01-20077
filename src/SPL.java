@@ -3,9 +3,11 @@ public class SPL {
     /* =============== MATRIKS BALIKAN ============== */
     // Menghasilkan nilai variabel SPL dengan metode Inverse
     public static Matrix inverseSPL(Matrix M) {
+        // KAMUS LOKAL
         Matrix kons = new Matrix(M.getRow(), 1);
         Matrix koef = new Matrix(M.getRow(), M.getCol() - 1);
         Matrix hasil;
+        // ALGORITMA
         kons = Matrix.getMatCons(M);
         koef = Matrix.getMatKoef(M);
         koef = Inverse.gaussInverse(koef);
@@ -32,6 +34,97 @@ public class SPL {
             hasil.setELMT(k, 0, detCramer / detM);
         }
         return hasil;
+    }
+
+    /* =============== SPL GAUSS JORDAN ============== */
+    // Eliminasi matrix augmented dengan metode Gauss-Jordan
+    public static Matrix elimGaussJordan(Matrix m) {
+        Matrix mRes, mKoef, mCons;
+
+        mKoef = Matrix.getMatKoef(m);
+        mCons = Matrix.getMatCons(m);
+        mRes = new Matrix(m.row, m.col);
+        mRes = Matrix.createAug(mKoef, mCons);
+
+        int pivotRow, pivotCol;
+        boolean flag1;
+
+        // Inisialisasi posisi pivot
+        pivotRow = 0;
+        pivotCol = 0;
+
+        while (pivotRow < m.row && pivotCol < m.col - 1) {
+            flag1 = false;
+
+            // Jika elemen pivot bernilai nol, maka akan menukarkan baris tersebut
+            // dengan baris lainnya
+            if (mKoef.M[pivotRow][pivotCol] == 0) {
+                boolean isUnderEmpty;
+                isUnderEmpty = Matrix.isUnderEmpty(Matrix.createAug(mKoef, mCons), pivotRow, pivotCol);
+
+                if (!isUnderEmpty) {
+                    for (int j = pivotRow + 1; j < mKoef.row; j++) {
+                        if ((mKoef.M[j][pivotCol]) > (mKoef.M[pivotRow][pivotCol])) {
+                            mKoef.switchRow(pivotRow, j);
+                            mCons.switchRow(pivotRow, j);
+
+                            break;
+                        }
+                    }
+                } else {
+                    // penanda untuk mengganti pivot
+                    flag1 = true;
+                }
+            }
+
+            // lanjut ke loop berikutnya bila ditemukan suatu baris kosong
+            if (Matrix.isRowEmpty(Matrix.createAug(mKoef, mCons), pivotRow)) {
+                pivotRow++;
+                pivotCol++;
+                continue;
+            }
+
+            // lanjut ke loop berikutnya dan posisi pivot berganti
+            if (flag1) {
+                pivotCol++;
+                continue;
+            }
+
+            double divider;
+            divider = mKoef.M[pivotRow][pivotCol];
+
+            // loop untuk mendapatkan leading one suatu baris,
+            // sekaligus menyesuaikan elemen kolom lainnya
+            for (int j = pivotCol; j < mKoef.col; j++) {
+                mKoef.M[pivotRow][j] = mKoef.M[pivotRow][j] / divider;
+            }
+            mCons.M[pivotRow][0] = mCons.M[pivotRow][0] / divider;
+
+            // loop untuk membuat elemen-elemen diatas leading one
+            // agar bernilai nol
+            for (int k = 0; k < mKoef.row; k++) {
+                if (k == pivotRow || mKoef.M[k][pivotCol] == 0) {
+                    continue;
+                }
+                double multiplier;
+                multiplier = mKoef.M[k][pivotCol];
+
+                for (int b = pivotCol; b < mKoef.col; b++) {
+                    mKoef.M[k][b] = mKoef.M[k][b] - (mKoef.M[pivotRow][b] * multiplier);
+                }
+                mCons.M[k][0] = mCons.M[k][0] - (multiplier * mCons.M[pivotRow][0]);
+            }
+
+            pivotRow++;
+            pivotCol++;
+        }
+
+        mRes = Matrix.createAug(mKoef, mCons);
+
+        Matrix.switchRowEmpty(mRes);
+        Matrix.changeZerovalue(mRes);
+
+        return mRes;
     }
 
     /* =============== SPL GAUSS ============== */
@@ -129,98 +222,6 @@ public class SPL {
         return M1;
     }
 
-    /* =============== SPL GAUSS JORDAN ============== */
-    // Eliminasi matrix augmented dengan metode Gauss-Jordan
-    public static Matrix elimGaussJordan(Matrix m) {
-        Matrix mRes, mKoef, mCons;
-
-        mKoef = Matrix.getMatKoef(m);
-        mCons = Matrix.getMatCons(m);
-        mRes = new Matrix(m.row, m.col);
-        mRes = Matrix.createAug(mKoef, mCons);
-
-        int pivotRow, pivotCol;
-        boolean flag1;
-
-        // Inisialisasi posisi pivot
-        pivotRow = 0;
-        pivotCol = 0;
-
-        while (pivotRow < m.row && pivotCol < m.col - 1) {
-            flag1 = false;
-
-            // Jika elemen pivot bernilai nol, maka akan menukarkan baris tersebut
-            // dengan baris lainnya
-            if (mKoef.M[pivotRow][pivotCol] == 0) {
-                boolean isUnderEmpty;
-                isUnderEmpty = Matrix.isUnderEmpty(Matrix.createAug(mKoef, mCons), pivotRow, pivotCol);
-
-                if (!isUnderEmpty) {
-                    for (int j = pivotRow + 1; j < mKoef.row; j++) {
-                        if ((mKoef.M[j][pivotCol]) > (mKoef.M[pivotRow][pivotCol])) {
-                            mKoef.switchRow(pivotRow, j);
-                            mCons.switchRow(pivotRow, j);
-
-                            break;
-                        }
-                    }
-                } else {
-                    // penanda untuk mengganti pivot
-                    flag1 = true;
-                }
-            }
-
-            // lanjut ke loop berikutnya bila ditemukan suatu baris kosong
-            if (Matrix.isRowEmpty(Matrix.createAug(mKoef, mCons), pivotRow)) {
-                pivotRow++;
-                pivotCol++;
-                continue;
-            }
-
-            // lanjut ke loop berikutnya dan posisi pivot berganti
-            if (flag1) {
-                pivotCol++;
-                continue;
-            }
-
-            double divider;
-            divider = mKoef.M[pivotRow][pivotCol];
-
-            // loop untuk mendapatkan leading one suatu baris,
-            // sekaligus menyesuaikan elemen kolom lainnya
-            for (int j = pivotCol; j < mKoef.col; j++) {
-                mKoef.M[pivotRow][j] = mKoef.M[pivotRow][j] / divider;
-            }
-            mCons.M[pivotRow][0] = mCons.M[pivotRow][0] / divider;
-
-            // loop untuk membuat elemen-elemen diatas leading one
-            // agar bernilai nol
-            for (int k = 0; k < mKoef.row; k++) {
-                if (k == pivotRow || mKoef.M[k][pivotCol] == 0) {
-                    continue;
-                }
-                double multiplier;
-                multiplier = mKoef.M[k][pivotCol];
-
-                for (int b = pivotCol; b < mKoef.col; b++) {
-                    mKoef.M[k][b] = mKoef.M[k][b] - (mKoef.M[pivotRow][b] * multiplier);
-                }
-                mCons.M[k][0] = mCons.M[k][0] - (multiplier * mCons.M[pivotRow][0]);
-            }
-
-            pivotRow++;
-            pivotCol++;
-        }
-
-        mRes = Matrix.createAug(mKoef, mCons);
-
-        Matrix.switchRowEmpty(mRes);
-        Matrix.changeZerovalue(mRes);
-
-        return mRes;
-    }
-
-    // Parametrik
     // Menghasilkan nilai variabel SPL dengan metode Gauss
     public static void GaussElimination(Matrix M) {
         /* KAMUS */
@@ -255,6 +256,7 @@ public class SPL {
 
     }
 
+    /* =============== SPL PARAMETRIK ============== */
     public static void getGaussSolutions(Matrix M) {
         /* KAMUS */
         int state[] = new int[M.getCol() - 1];

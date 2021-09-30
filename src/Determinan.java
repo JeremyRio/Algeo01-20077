@@ -1,6 +1,5 @@
 public class Determinan {
 
-  // METHOD
   // Menghasilkan determinan dengan cara ekspansi kofaktor dari Matrix M
   public static double detCofactor(Matrix M) {
     // KAMUS LOKAL
@@ -42,7 +41,7 @@ public class Determinan {
     return hasil;
   }
 
-  // Menghasilkan determinan dengan cara retuksi dari Matrix M
+  // Menghasilkan determinan dengan cara reduksi baris matrix dari Matrix M
   public static double detReduksi(Matrix M) {
     // KAMUS LOKAL
     double det = 1;

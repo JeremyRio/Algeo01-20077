@@ -2,9 +2,9 @@ public class InterpolasiRegresi {
 
   /* INTERPOLASI */
   // Menghasilkan taksiran dari titik-titik interpolasi
-  public static double interpolasiSPL(Matrix M, double x) {
+  public static void interpolasiSPL(Matrix M, double x) {
     // KAMUS LOKAL
-    String rumus;
+    String rumus, m;
     int i, j;
     double taksir = 0;
     double a, koef;
@@ -21,23 +21,26 @@ public class InterpolasiRegresi {
       polasi.setELMT(i, j, M.getELMT(i, M.getCol() - 1));
     }
     hasil = SPL.inverseSPL(polasi);
-    rumus = String.valueOf(hasil.getELMT(0, 0));
+    rumus = "P" + (hasil.getRow() - 1) + "(X) = " + hasil.getELMT(0, 0);
     for (i = 1; i < M.getRow(); i++) {
       rumus += " + " + hasil.getELMT(i, 0) + " X^" + i;
     }
     for (i = 0; i < hasil.getRow(); i++) {
       taksir += Math.pow(x, i) * hasil.getELMT(i, 0);
     }
-    System.out.println();
-    System.out.println("P" + (hasil.getRow() - 1) + "(X) = " + rumus);
-    return taksir;
+    System.out.println("\nPersamaan polinom yang terbentuk: ");
+    System.out.println(rumus);
+    System.out.println("\nHasil taksiran polinom: ");
+    m = "P" + (hasil.getRow() - 1) + "(" + x + ")" + " = " + taksir;
+    System.out.println(m);
+    IOFile.saveFilePolinom(rumus, m);
   }
 
   /* REGRESI */
   // Menghasilkan taksiran dari regresi data sampel
-  public static double regresiGandaSPL(Matrix M, Matrix X) {
+  public static void regresiGandaSPL(Matrix M, Matrix X) {
     // KAMUS LOKAL
-    String rumus;
+    String rumus, m;
     int N = X.getCol(); // Jumlah peubah x
     int i, j, k, l, idxCol;
     double temp;
@@ -72,8 +75,7 @@ public class InterpolasiRegresi {
 
     // Melakukan SPL pada Matrix hasil Normal Estimation Equation
     hasilSPL = SPL.inverseSPL(hasilM);
-
-    rumus = String.valueOf(hasilSPL.getELMT(0, 0));
+    rumus = "Y = " + hasilSPL.getELMT(0, 0);
     for (i = 1; i < hasilSPL.getRow(); i++) {
       rumus += " + " + hasilSPL.getELMT(i, 0) + " X" + i;
     }
@@ -84,9 +86,12 @@ public class InterpolasiRegresi {
       taksir += X.getELMT(0, i) * hasilSPL.getELMT(i + 1, 0);
     }
 
+    System.out.println("\nPersamaan Regresi yang terbentuk: ");
+    System.out.println(rumus);
     System.out.println();
-    System.out.println("f(X) = " + rumus);
-    return taksir;
+    m = "Hasil taksiran regresi: " + taksir;
+    System.out.println(m);
+    IOFile.saveFileRegresi(rumus, m);
   }
 
 }

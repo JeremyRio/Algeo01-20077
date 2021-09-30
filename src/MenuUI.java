@@ -21,7 +21,7 @@ class MenuUI {
     System.out.println("      (^///^) SELAMAT DATANG (^///^)      ");
     System.out.println("==========================================");
 
-    while(isRun) {
+    while (isRun) {
       String message;
       String pilihan;
       int m, n, tipe;
@@ -57,9 +57,9 @@ class MenuUI {
           System.out.print(">Masukan: ");
           pilihan = in.nextLine();
 
-          if(pilihan.equals("0")) {
+          if (pilihan.equals("0")) {
             break;
-          } else{
+          } else {
             displayTipe();
             tipe = sc.nextInt();
 
@@ -83,7 +83,7 @@ class MenuUI {
               case "1":
                 hasilM = SPL.getRowEchelon(ab);
                 SPL.GaussElimination(hasilM);
-                
+
                 break;
               case "2":
                 hasilM = SPL.elimGaussJordan(ab);
@@ -146,7 +146,7 @@ class MenuUI {
             pilihan = in.nextLine();
 
             switch (pilihan) {
-              case "1": 
+              case "1":
                 isRun = false;
                 break;
               case "0":
@@ -156,7 +156,7 @@ class MenuUI {
                 break;
             }
             break;
-            }
+          }
 
         case "2":
           System.out.println();
@@ -168,10 +168,10 @@ class MenuUI {
           System.out.print(">Masukan: ");
           pilihan = in.nextLine();
 
-          if(pilihan.equals("0")){
+          if (pilihan.equals("0")) {
             break;
-  
-          } else{
+
+          } else {
             displayTipe();
             tipe = sc.nextInt();
 
@@ -215,7 +215,7 @@ class MenuUI {
             pilihan = in.nextLine();
 
             switch (pilihan) {
-              case "1": 
+              case "1":
                 isRun = false;
                 break;
               case "0":
@@ -226,9 +226,7 @@ class MenuUI {
             }
 
             break;
-            }
-
-          
+          }
 
         case "3":
           System.out.println();
@@ -240,10 +238,10 @@ class MenuUI {
           System.out.print(">Masukan: ");
           pilihan = in.nextLine();
 
-          if(pilihan.equals("0")){
+          if (pilihan.equals("0")) {
             break;
-        
-          } else{
+
+          } else {
             displayTipe();
             tipe = sc.nextInt();
 
@@ -300,7 +298,7 @@ class MenuUI {
             pilihan = in.nextLine();
 
             switch (pilihan) {
-              case "1": 
+              case "1":
                 isRun = false;
                 break;
               case "0":
@@ -311,8 +309,8 @@ class MenuUI {
             }
 
             break;
-            }
-          
+          }
+
         case "4":
           displayTipe();
           tipe = sc.nextInt();
@@ -329,15 +327,12 @@ class MenuUI {
             System.out.print(">Masukkan path file: ");
             String path = in.nextLine();
             f = new IOFile(path);
-            a = f.readFileInterpolasi();
+            a = f.readFile();
             System.out.print(">Masukkan nilai yang ditaksir: ");
             x = sc.nextDouble();
           }
 
-          hasil = InterpolasiRegresi.interpolasiSPL(a, x);
-          message = "Hasil taksir = " + hasil;
-          System.out.println(message);
-          IOFile.saveFile(message);
+          InterpolasiRegresi.interpolasiSPL(a, x);
 
           System.out.println();
           System.out.println("==================================");
@@ -349,15 +344,15 @@ class MenuUI {
           pilihan = in.nextLine();
 
           switch (pilihan) {
-             case "1": 
-               isRun = false;
-               break;
-             case "0":
-               break;
+            case "1":
+              isRun = false;
+              break;
+            case "0":
+              break;
             default:
-               isRun = false;
-               break;
-            }
+              isRun = false;
+              break;
+          }
           break;
 
         case "5":
@@ -378,16 +373,13 @@ class MenuUI {
             System.out.print(">Masukkan path file: ");
             String path = in.nextLine();
             f = new IOFile(path);
-            a = f.readFileRegresi();
+            a = f.readFile();
             k = new Matrix(1, a.getCol() - 1);
             System.out.println(">Masukkan nilai X yang akan ditaksir: ");
-            k.readMatrixPolinom(a.getCol() - 1);
+            k.readMatrixRegresi(a.getCol() - 1);
           }
 
-          hasil = InterpolasiRegresi.regresiGandaSPL(a, k);
-          message = "Hasil taksir = " + hasil;
-          System.out.println(message);
-          IOFile.saveFile(message);
+          InterpolasiRegresi.regresiGandaSPL(a, k);
 
           System.out.println();
           System.out.println("==================================");
@@ -399,7 +391,7 @@ class MenuUI {
           pilihan = in.nextLine();
 
           switch (pilihan) {
-            case "1": 
+            case "1":
               isRun = false;
               break;
             case "0":
@@ -407,7 +399,7 @@ class MenuUI {
             default:
               isRun = false;
               break;
-            }
+          }
           break;
 
         case "6":

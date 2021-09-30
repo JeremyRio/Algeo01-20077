@@ -77,51 +77,6 @@ public class IOFile {
     return M;
   }
 
-  // Membaca file matrix khusus Interpolasi
-  public Matrix readFileInterpolasi() {
-    // KAMUS LOKAL
-    int i, j, n;
-    Matrix M;
-    // ALGORITMA
-    n = readRow() - 1;
-    openFile();
-    M = new Matrix(n, 2);
-    for (i = 0; i < M.getRow(); i++) {
-      for (j = 0; j < M.getCol(); j++) {
-        M.setELMT(i, j, file.nextFloat());
-      }
-    }
-    return M;
-  }
-
-  // Membaca file matrix khusus Regresi
-  public Matrix readFileRegresi() {
-    // KAMUS LOKAL
-    int i, j, m, n;
-    Matrix M;
-    // ALGORITMA
-    m = readRow();
-    n = readCol();
-    openFile();
-    M = new Matrix(m, n);
-    for (i = 0; i < M.getRow(); i++) {
-      for (j = 0; j < M.getCol(); j++) {
-        M.setELMT(i, j, file.nextFloat());
-      }
-    }
-    return M;
-  }
-
-  // Membaca Taksiran dari File
-  public float readTaksiran() {
-    // KAMUS LOKAL
-    float x;
-    // ALGORITMA
-    x = file.nextFloat();
-    closeFile();
-    return x;
-  }
-
   // Menampilkan display Save
   public static void displaySave() {
     System.out.println();
@@ -198,6 +153,56 @@ public class IOFile {
       }
     } catch (Exception e) {
       System.out.println("Error dalam saveFileSPL");
+    }
+  }
+
+  // Melakukan save File untuk metode Regresi
+  public static void saveFilePolinom(String m1, String m2) {
+    // KAMUS LOKAL
+    int opsi;
+    String nama;
+    PrintWriter out;
+    // ALGORITMA
+    try {
+      displaySave();
+      opsi = in.nextInt();
+      if (opsi == 1) {
+        System.out.print(">Nama file (Contoh: test.txt): ");
+        nama = sc.nextLine();
+        out = new PrintWriter(new File("output/" + nama));
+        out.println("Persamaan polinom yang terbentuk: ");
+        out.println(m1);
+        out.println("\nHasil taksiran polinom: ");
+        out.println(m2);
+        out.close();
+      }
+    } catch (Exception e) {
+      System.out.println("Error dalam saveFilePolinom");
+    }
+  }
+
+  // Melakukan save File untuk metode Regresi
+  public static void saveFileRegresi(String m1, String m2) {
+    // KAMUS LOKAL
+    int opsi;
+    String nama;
+    PrintWriter out;
+    // ALGORITMA
+    try {
+      displaySave();
+      opsi = in.nextInt();
+      if (opsi == 1) {
+        System.out.print(">Nama file (Contoh: test.txt): ");
+        nama = sc.nextLine();
+        out = new PrintWriter(new File("output/" + nama));
+        out.println("Persamaan regresi yang terbentuk: ");
+        out.println(m1);
+        out.println();
+        out.println(m2);
+        out.close();
+      }
+    } catch (Exception e) {
+      System.out.println("Error dalam saveFileRegresi");
     }
   }
 

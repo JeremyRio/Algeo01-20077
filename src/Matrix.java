@@ -45,7 +45,7 @@ public class Matrix {
     }
   }
 
-  public void readMatrixPolinom(int N) {
+  public void readMatrixRegresi(int N) {
     // KAMUS LOKAL
     int i;
     // ALGORITMA
