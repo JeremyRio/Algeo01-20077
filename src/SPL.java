@@ -256,31 +256,48 @@ public class SPL {
 
     }
 
+    public static String[] stripNonDigits (String x) {
+        final String[] out = new String[2];
+        final StringBuilder sb1 = new StringBuilder(x.length());
+        final StringBuilder sb2 = new StringBuilder(x.length());
+    
+        for (int i=0;i<x.length();i++) {
+            final char c = x.charAt(i);
+            if ((c == 45) || (c == 46) || (c > 47 && c < 58)) {
+                out[0] = (sb1.append(c)).toString();
+            }
+            if ((c > 96) && (c < 123)) {
+                out[1] = (sb2.append(c)).toString();
+            }
+        }
+        return (out);
+    }
+
     /* =============== SPL PARAMETRIK ============== */
     public static void getGaussSolutions(Matrix M) {
         /* KAMUS */
-        int state[] = new int[M.getCol() - 1];
-        /*
-         * Penjelasan array state Jika isi array = 0: maka solusi undefined, belum
-         * diinisialisasi Jika isi array = 1: maka solusi tersebut eksak, contoh x1 = 20
-         * Jika isi array = 2: maka solusi tersebut parametrik, contoh x3 = a Jika isi
-         * array = 3: maka solusi tersebut gabungan eksak dan parametrik, contoh x2 =
-         * 2*x3 + 20
-         */
-
+        int state[] = new int[M.getCol()-1];
+        /* Penjelasan array state
+           Jika isi array = 0: maka solusi undefined, belum diinisialisasi
+           Jika isi array = 1: maka solusi tersebut eksak, contoh x1 = 20
+           Jika isi array = 2: maka solusi tersebut parametrik, contoh x3 = a
+           Jika isi array = 3: maka solusi tersebut gabungan eksak dan parametrik, contoh x2 = 2*x3 + 20 */
+        
         // Array untuk menyimpan solusi dalam bentuk eksak
-        double result[] = new double[M.getCol() - 1];
+        double result[] = new double[M.getCol()-1];
 
         // Array untuk menyimpan solusi dalam bentuk string
-        String Eq[] = new String[M.getCol() - 1];
-        int i, j, k;
-        double cValue = 0;
+        String Eq[] = new String[M.getCol()-1];
+
+        // Array untuk handle bagian parametrik dibawah
+        String[] answer = new String[2];
+        int i,j,k;
+        double cValue, tempValue = 0.0;
         String cParam;
         char variabel = 'p';
         /* ALGORITMA */
         // Hitung dari paling bawah dan iterasi ke atas
-        for (i = M.getRow() - 1; i >= 0; i--) {
-
+        for (i=M.getRow()-1;i>=0;i--) {
             // Jika ada baris yang isinya 0, skip baris itu dan lanjut iterasi ke atas
             if (Matrix.isRowEmpty(M, i)) {
                 continue;
@@ -294,25 +311,22 @@ public class SPL {
             // Ganti ke elemen selanjutnya, artinya start loop dari elemen setelah 1 utama
             j++;
             // Ambil nilai konstanta terletak di kolom terakhir
-            cValue = M.getELMT(i, M.getCol() - 1);
+            cValue = M.getELMT(i, M.getCol()-1);
 
             // Start looping nilai eksak untuk cValue
-            while (j < M.getCol() - 1) {
+            while (j < M.getCol()-1) {
                 // Skip yang isinya 0
                 if (M.getELMT(i, j) != 0) {
                     // Jika solusi bukan eksak, maka asumsikan solusi harus disubstitusikan
-                    // Teorinya karena kalau variabel/kolom itu punya nilai eksak, maka array state
-                    // akan
-                    // diisi dengan angka 1, sehingga percabangan ini tidak jalan, bergeser ke
-                    // percabangan selanjutnya
+                    // Teorinya karena kalau variabel/kolom itu punya nilai eksak, maka array state akan
+                    // diisi dengan angka 1, sehingga percabangan ini tidak jalan, bergeser ke percabangan selanjutnya
                     if (state[j] != 1) {
                         state[k] = 3;
                     }
                     // Jika solusi eksak, gunakan perhitungan biasa untuk mendapat nilainya
                     if (state[j] == 1) {
                         cValue -= M.getELMT(i, j) * result[j];
-                    } else if (state[j] == 0) { // Kalau masih undefined, artinya kolom itu tidak bisa dicapai
-                                                // percabangan manapun
+                    } else if (state[j] == 0) { // Kalau masih undefined, artinya kolom itu tidak bisa dicapai percabangan manapun
                         state[j] = 2; // Set state menjadi bentuk variabel parametrik
                         Eq[j] = String.valueOf(variabel); // Set variabel berbentuk huruf ke dalam array Eq
                         variabel++;
@@ -336,48 +350,68 @@ public class SPL {
             j = k + 1;
 
             /* BAGIAN PELEMPARAN VARIABEL KE OUTPUT */
-            // Jika state 3, maka output berupa gabungan angka dan variabel, contohnya -3q +
-            // 2r
+            // Jika state 3, maka output berupa gabungan angka dan variabel, contohnya -3q + 2r
             if (state[k] == 3) {
-                while (j < M.getCol() - 1) {
+                while (j < M.getCol()-1) {
                     // Skip yang isinya 0
                     if (M.getELMT(i, j) != 0) {
                         // Jika mendapat state 2, maka berupa parameter
                         if (state[j] == 2) {
                             // Desain output
-                            // Jika nilai positif, maka persamaan akan menjadi negatif, karena berubah tanda
-                            // melewati =
+                            // Jika nilai positif, maka persamaan akan menjadi negatif, karena berubah tanda melewati =
                             if (M.getELMT(i, j) > 0) {
                                 // Jika nilai koefisien 1, tidak perlu ditulis angka 1
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
                                     cParam += "-" + Eq[j] + "";
                                 } else { // Jika nilai koefisien bukan 1, maka perlu ditulis koefisien itu
-
                                     cParam += "-" + Math.abs(M.getELMT(i, j)) + Eq[j];
                                 }
-                            } else { // Jika nilai negatif, maka persamaan akan menjadi positif, karena berubah tanda
-                                     // melewati =
+                            } else { // Jika nilai negatif, maka persamaan akan menjadi positif, karena berubah tanda melewati =
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
                                     cParam += "+" + Eq[j] + "";
                                 } else {
                                     cParam += "+" + Math.abs(M.getELMT(i, j)) + Eq[j];
                                 }
                             }
-                        } else if (state[j] == 3) { // Jika mendapat state 3, maka berupa nilai yang dapat
-                                                    // disubstitusikan
+                        } else if (state[j] == 3) { // Jika mendapat state 3, maka berupa nilai yang dapat disubstitusikan
                             // Desain output
                             // Aturan sama seperti di atas
                             if (M.getELMT(i, j) > 0) {
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
                                     cParam += "-" + "(" + Eq[j] + ")";
                                 } else {
-                                    cParam += "-" + Math.abs(M.getELMT(i, j)) + "(" + Eq[j] + ")";
+                                    // Coba untuk mendapatkan perkalian substitusi, misal x3 = -2q dan x1 = 2x3, maka x1 = 2(-2q) = -4q
+                                    try {
+                                        answer = stripNonDigits(Eq[j]);
+                                        tempValue = (M.getELMT(i, j)) * (Float.parseFloat(answer[0]));
+                                        if (tempValue > 0) {
+                                            cParam += "+" +  Math.abs(tempValue) + answer[1];
+                                        } else {
+                                            cParam += "-" +  Math.abs(tempValue) + answer[1];
+                                        }
+                                    // Jika error, maka akan output seperti biasa dan dihitung manual
+                                    } catch(Exception e) {
+                                        cParam += "-" + Math.abs(M.getELMT(i, j)) + "(" +  Eq[j] + ")";
+                                    }
                                 }
                             } else {
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
                                     cParam += "+" + "(" + Eq[j] + ")";
                                 } else {
-                                    cParam += "+" + Math.abs(M.getELMT(i, j)) + "(" + Eq[j] + ")";
+                                    try {
+                                        answer = stripNonDigits(Eq[j]);
+                                        tempValue = (M.getELMT(i, j)) * (-1) * (Float.parseFloat(answer[0]));
+                                        if (tempValue > 0) {
+                                            cParam += "+" +  Math.abs(tempValue) + answer[1];
+                                        } else {
+                                            cParam += "-" +  Math.abs(tempValue) + answer[1];
+                                        }
+                                    } catch(Exception e) {
+                                        cParam += "+" + Math.abs(M.getELMT(i, j)) + "(" +  Eq[j] + ")";
+                                    }
+                                    
+                                    
+                                
                                 }
                             }
                         }
@@ -391,7 +425,7 @@ public class SPL {
         }
 
         // Final cek bagian yang null
-        for (i = 0; i < M.getCol() - 1; i++) {
+        for (i = 0;i<M.getCol()-1;i++) {
             if (state[i] == 0) {
                 state[i] = 2;
                 Eq[i] = String.valueOf(variabel);
