@@ -1,13 +1,13 @@
 public class Determinan {
 
-  // Menghasilkan determinan dengan cara ekspansi kofaktor dari Matrix M
+  /* Menghasilkan determinan dengan cara ekspansi kofaktor dari Matrix M */
   public static double detCofactor(Matrix M) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j, k;
     int iCol, iRow;
     double hasil;
     Matrix cof = new Matrix(M.getRow() - 1, M.getCol() - 1);
-    // ALGORITMA
+    /* ALGORITMA */
     hasil = 0;
     // Dilakukan ekspansi kofaktor secara rekursif
     if (M.Size() == 1) {
@@ -41,14 +41,14 @@ public class Determinan {
     return hasil;
   }
 
-  // Menghasilkan determinan dengan cara reduksi baris matrix dari Matrix M
+  /* Menghasilkan determinan dengan cara reduksi baris matrix dari Matrix M */
   public static double detReduksi(Matrix M) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     double det = 1;
     int i, j, k;
     int count = 0;
     Matrix copyM = new Matrix(M.getRow(), M.getCol());
-    // ALGORITMA
+    /* ALGORITMA */
     M.copyMatrix(copyM);
     for (i = 0; i < copyM.getRow() - 1; i++) {
       // Melakukan pertukaran baris jika elemen diagonal == 0

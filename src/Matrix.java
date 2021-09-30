@@ -15,7 +15,7 @@ public class Matrix {
   }
 
   /* Method */
-  // GETTER
+  /* ======== GETTER ======== */
   public int getRow() {
     return this.row;
   }
@@ -28,16 +28,16 @@ public class Matrix {
     return (this.M[i][j]);
   }
 
-  // SETTER
+  /* ======== SETTER ======== */
   public void setELMT(int i, int j, double value) {
     this.M[i][j] = value;
   }
 
-  // INPUT/OUTPUT
+  /* ======== INPUT/OUTPUT ======== */
   public void readMatrix() {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j;
-    // ALGORITMA
+    /* ALGORITMA */
     for (i = 0; i < this.row; i++) {
       for (j = 0; j < this.col; j++) {
         this.M[i][j] = input.nextDouble();
@@ -46,9 +46,9 @@ public class Matrix {
   }
 
   public void readMatrixRegresi(int N) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i;
-    // ALGORITMA
+    /* ALGORITMA */
     for (i = 0; i < N; i++) {
       System.out.print(">X" + (i + 1) + ": ");
       this.M[0][i] = input.nextDouble();
@@ -56,9 +56,9 @@ public class Matrix {
   }
 
   public void displayMatrix() {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j;
-    // ALGORITMA
+    /* ALGORITMA */
     for (i = 0; i < this.row; i++) {
       for (j = 0; j < this.col; j++) {
         System.out.print(M[i][j]);
@@ -66,42 +66,40 @@ public class Matrix {
           System.out.print(" ");
         }
       }
-      // if (i != this.row - 1) {
       System.out.println();
-      // }
     }
     System.out.println();
   }
 
-  // OPERATION
+  /* ======== OPERATION ======== */
   public int Size() {
-    // ALGORITMA
+    /* ALGORITMA */
     return (this.row * this.col);
   }
 
   public void operationRow(int i1, int i2, double k) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int j;
-    // ALGORITMA
+    /* ALGORITMA */
     for (j = 0; j < col; j++) {
       this.M[i1][j] -= k * this.M[i2][j];
     }
   }
 
   public void divideRow(int i, double k) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int j;
-    // ALGORITMA
+    /* ALGORITMA */
     for (j = 0; j < col; j++) {
       this.M[i][j] /= k;
     }
   }
 
   public void switchRow(int i1, int i2) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int j;
     double temp;
-    // ALGORITMA
+    /* ALGORITMA */
     for (j = 0; j < col; j++) {
       temp = this.M[i1][j];
       this.M[i1][j] = this.M[i2][j];
@@ -110,9 +108,9 @@ public class Matrix {
   }
 
   public void copyMatrix(Matrix outM) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j;
-    // ALGORITMA
+    /* ALGORITMA */
     for (i = 0; i < outM.getRow(); i++) {
       for (j = 0; j < outM.getCol(); j++) {
         outM.setELMT(i, j, this.getELMT(i, j));
@@ -133,8 +131,8 @@ public class Matrix {
     }
   }
 
+  /* Menempatkan suatu baris kosong ke bagian bawah matrix tersebut */
   public static void switchRowEmpty(Matrix m) {
-    // Menempatkan suatu baris kosong ke bagian bawah matrix tersebut
     for (int i = 0; i < m.row; i++) {
       if (isRowEmpty(m, i)) {
         for (int j = i + 1; j < m.row; j++) {
@@ -146,8 +144,8 @@ public class Matrix {
     }
   }
 
+  /* Menyesuaikan elemen bernilai nol menjadi absolut */
   public static void changeZerovalue(Matrix m) {
-    // Menyesuaikan elemen bernilai nol menjadi absolut
     for (int i = 0; i < m.row; i++) {
       for (int j = 0; j < m.col; j++) {
         if (m.M[i][j] == -0.0) {
@@ -158,10 +156,10 @@ public class Matrix {
   }
 
   public Matrix transpose(Matrix M) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j;
     Matrix Mout = new Matrix(M.getRow(), M.getCol());
-    // ALGORITMA
+    /* ALGORITMA */
     for (i = 0; i < M.getRow(); i++) {
       for (j = 0; j < M.getCol(); j++) {
         Mout.setELMT(j, i, M.getELMT(i, j));
@@ -170,12 +168,12 @@ public class Matrix {
     return Mout;
   }
 
+  /* Membentuk Matrix Koefisien */
   public static Matrix getMatKoef(Matrix m) {
-    // Buat matrix koefisien
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     Matrix matKoef = new Matrix(m.row, m.col - 1);
     int i, j;
-    // ALGORITMA
+    /* ALGORITMA */
     for (i = 0; i < matKoef.row; i++) {
       for (j = 0; j < matKoef.col; j++) {
         matKoef.M[i][j] = m.M[i][j];
@@ -185,10 +183,11 @@ public class Matrix {
     return matKoef;
   }
 
-  public static Matrix createAug(Matrix koef, Matrix cons)
-  // Buat matrix augmented
-  {
+  /* Membentuk Matrix Augmented */
+  public static Matrix createAug(Matrix koef, Matrix cons) {
+    /* KAMUS LOKAL */
     Matrix result = new Matrix(koef.row, koef.col + 1);
+    /* ALGORITMA */
     for (int i = 0; i < koef.row; i++) {
       for (int j = 0; j < result.col - 1; j++) {
         result.M[i][j] = koef.M[i][j];
@@ -200,25 +199,25 @@ public class Matrix {
     return result;
   }
 
-  public static Matrix getMatCons(Matrix m)
-  // Buat matrix konstanta
-  {
+  /* Membentuk Matrix Konstanta */
+  public static Matrix getMatCons(Matrix m) {
+    /* KAMUS LOKAL */
     Matrix matCons = new Matrix(m.row, 1);
     int i;
-
+    /* ALGORITMA */
     for (i = 0; i < matCons.row; i++) {
       matCons.M[i][0] = m.M[i][m.col - 1];
     }
-
     return matCons;
   }
 
+  /* Melakukan operasi perkalian Matrix (M1 * M2) */
   public Matrix multiplyMatrix(Matrix m1, Matrix m2) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j, k = 0;
     Matrix m3 = new Matrix(m1.getRow(), m2.getCol());
     double temp = 0;
-    // ALGORITMA
+    /* ALGORITMA */
     for (i = 0; i < m1.getRow(); i++) {
       for (j = 0; j < m2.getCol(); j++) {
         temp = 0;
@@ -231,8 +230,8 @@ public class Matrix {
     return m3;
   }
 
+  /* Mengecek apakah suatu baris kosong */
   public static boolean isRowEmpty(Matrix m, int i) {
-    // cek suatu baris kosong
     int count = 0;
     int index = 0;
     while (count == 0 && index < m.col) {
@@ -258,8 +257,8 @@ public class Matrix {
     return flag;
   }
 
+  /* Mengecek elemen-elemen dibawah elemen terkini, kosong atau tidak */
   public static boolean isUnderEmpty(Matrix m, int i, int j) {
-    // Mengecek elemen-elemen dibawah elemen terkini, kosong atau tidak
     int count, iRow;
     count = 0;
     iRow = i + 1;
@@ -272,6 +271,7 @@ public class Matrix {
     return (count == 0);
   }
 
+  /* Mengecek apakah elemen-elemen diagonal pada Matrix bernilai 1 */
   public static boolean isDiagonalOne(Matrix M) {
     /* KAMUS LOKAL */
     int i;
@@ -287,6 +287,7 @@ public class Matrix {
     return flag;
   }
 
+  /* Mendapatkan pivot Matrix yang bernilai 1 */
   public static int getLeadingOne(Matrix M, int row) {
     /* KAMUS */
     int j = 0;

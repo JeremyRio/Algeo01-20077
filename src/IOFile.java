@@ -14,7 +14,7 @@ public class IOFile {
   }
 
   /* Method */
-  // Membuka file
+  /* Membuka file */
   public void openFile() {
     try {
       this.file = new Scanner(new File(this.fileName));
@@ -24,16 +24,16 @@ public class IOFile {
     }
   }
 
-  // Menutup file
+  /* Menutup file */
   public void closeFile() {
     file.close();
   }
 
-  // Membaca banyak baris matrix dalam file
+  /* Menghasilkan banyak baris Matrix dalam file .txt */
   public int readRow() {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int row = 0;
-    // ALGORITMA
+    /* ALGORITMA */
     openFile();
     while (file.hasNextLine()) {
       row++;
@@ -43,11 +43,11 @@ public class IOFile {
     return row;
   }
 
-  // Membaca banyak kolom matrix dalam file
+  /* Menghasilkan banyak kolom Matrix dalam file .txt */
   public int readCol() {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int col = 0;
-    // ALGORITMA
+    /* ALGORITMA */
     openFile();
     Scanner lastline = new Scanner(file.nextLine());
     while (lastline.hasNextFloat()) {
@@ -58,12 +58,12 @@ public class IOFile {
     return col;
   }
 
-  // Membaca matrix dari file
+  /* Membaca Matrix dari file .txt */
   public Matrix readFile() {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j, m, n;
     Matrix M;
-    // ALGORITMA
+    /* ALGORITMA */
     m = readRow();
     n = readCol();
     M = new Matrix(m, n);
@@ -77,8 +77,9 @@ public class IOFile {
     return M;
   }
 
-  // Menampilkan display Save
+  /* Menampilkan display Save */
   public static void displaySave() {
+    /* ALGORITMA */
     System.out.println();
     System.out.println("=======================================================");
     System.out.println("Apakah keluaran ingin disimpan dalam folder \"output\"?");
@@ -88,11 +89,11 @@ public class IOFile {
     System.out.print(">Masukan: ");
   }
 
-  // Menuliskan Matrix ke dalam file
+  /* Menuliskan Matrix ke dalam file */
   public static void writeMatrix(Matrix M, String fileName) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j;
-    // ALGORITMA
+    /* ALGORITMA */
     try {
       PrintWriter out = new PrintWriter(fileName);
       for (i = 0; i < M.row; i++) {
@@ -110,13 +111,13 @@ public class IOFile {
     }
   }
 
-  // Melakukan save File untuk metode Inverse
+  /* Melakukan save File untuk metode Inverse */
   public static void saveFileInverse(Matrix hasil) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int opsi;
     String nama;
     PrintWriter out;
-    // ALGORITMA
+    /* ALGORITMA */
     try {
       displaySave();
       opsi = in.nextInt();
@@ -132,13 +133,13 @@ public class IOFile {
     }
   }
 
-  // Melakukan save File untuk metode SPL
+  /* Melakukan save File untuk metode SPL */
   public static void saveFileSPL(Matrix hasil) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int opsi;
     String nama;
     PrintWriter out;
-    // ALGORITMA
+    /* ALGORITMA */
     try {
       displaySave();
       opsi = in.nextInt();
@@ -156,13 +157,13 @@ public class IOFile {
     }
   }
 
-  // Melakukan save File untuk metode Regresi
+  /* Melakukan save File untuk metode Regresi */
   public static void saveFilePolinom(String m1, String m2) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int opsi;
     String nama;
     PrintWriter out;
-    // ALGORITMA
+    /* ALGORITMA */
     try {
       displaySave();
       opsi = in.nextInt();
@@ -181,13 +182,13 @@ public class IOFile {
     }
   }
 
-  // Melakukan save File untuk metode Regresi
+  /* Melakukan save File untuk metode Regresi */
   public static void saveFileRegresi(String m1, String m2) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int opsi;
     String nama;
     PrintWriter out;
-    // ALGORITMA
+    /* ALGORITMA */
     try {
       displaySave();
       opsi = in.nextInt();
@@ -206,12 +207,13 @@ public class IOFile {
     }
   }
 
+  /* Melakukan save File untuk solusi Parametik */
   public static void saveFileParametric(int N, String[] Eq) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int opsi;
     String nama;
     PrintWriter out;
-    // ALGORITMA
+    /* ALGORITMA */
     try {
       displaySave();
       opsi = in.nextInt();
@@ -229,13 +231,13 @@ public class IOFile {
     }
   }
 
-  // Melakukan save File secara umum
+  /* Melakukan save File secara umum */
   public static void saveFile(String m) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int opsi;
     String nama;
     PrintWriter out;
-    // ALGORITMA
+    /* ALGORITMA */
     try {
       displaySave();
       opsi = in.nextInt();

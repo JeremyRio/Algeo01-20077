@@ -1,16 +1,17 @@
 public class InterpolasiRegresi {
 
   /* INTERPOLASI */
-  // Menghasilkan taksiran dari titik-titik interpolasi
+  /* Menghasilkan taksiran dari titik-titik interpolasi */
   public static void interpolasiSPL(Matrix M, double x) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     String rumus, m;
     int i, j;
     double taksir = 0;
     double a, koef;
     Matrix hasil;
     Matrix polasi = new Matrix(M.getRow(), M.getRow() + 1);
-    // ALGORITMA
+    /* ALGORITMA */
+    // Melakukan penempatan konstanta pada kolom Matrix
     for (i = 0; i < M.getRow(); i++) {
       a = M.getELMT(i, 0);
       koef = 1;
@@ -20,7 +21,9 @@ public class InterpolasiRegresi {
       }
       polasi.setELMT(i, j, M.getELMT(i, M.getCol() - 1));
     }
+    // Menghitung nilai Matrix polasi
     hasil = SPL.inverseSPL(polasi);
+    // Membentuk rumus polinom
     rumus = "P" + (hasil.getRow() - 1) + "(X) = " + hasil.getELMT(0, 0);
     for (i = 1; i < M.getRow(); i++) {
       rumus += " + " + hasil.getELMT(i, 0) + " X^" + i;
@@ -37,9 +40,9 @@ public class InterpolasiRegresi {
   }
 
   /* REGRESI */
-  // Menghasilkan taksiran dari regresi data sampel
+  /* Menghasilkan taksiran dari regresi data sampel */
   public static void regresiGandaSPL(Matrix M, Matrix X) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     String rumus, m;
     int N = X.getCol(); // Jumlah peubah x
     int i, j, k, l, idxCol;
@@ -48,7 +51,7 @@ public class InterpolasiRegresi {
     Matrix hasilM; // Matrix setelah Normal Estimation Equation
     Matrix hasilSPL; // Matrix hasil SPL
 
-    // ALGORITMA
+    /* ALGORITMA */
     // Melakukan Normal Estimation Equation pada Matrix M
     hasilM = new Matrix(N + 1, N + 2);
     for (i = 0; i < hasilM.getRow(); i++) {
@@ -75,6 +78,7 @@ public class InterpolasiRegresi {
 
     // Melakukan SPL pada Matrix hasil Normal Estimation Equation
     hasilSPL = SPL.inverseSPL(hasilM);
+    // Membentuk rumus polinom
     rumus = "Y = " + hasilSPL.getELMT(0, 0);
     for (i = 1; i < hasilSPL.getRow(); i++) {
       rumus += " + " + hasilSPL.getELMT(i, 0) + " X" + i;

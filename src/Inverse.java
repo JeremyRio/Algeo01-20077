@@ -1,7 +1,8 @@
 public class Inverse {
 
+  /* Menghasilkan matriks kofaktor dari sebuah matriks */
   public static Matrix getCofMatrix(Matrix M, int pivotrow, int pivotcol) {
-    /* KAMUS */
+    /* KAMUS LOKAL */
     int i, j;
     int icof = 0, jcof = 0;
     Matrix cof = new Matrix((M.getRow() - 1), (M.getCol() - 1));
@@ -36,13 +37,15 @@ public class Inverse {
     return cof;
   }
 
+  /* Menghasilkan matriks adjoin dari sebuah matrix */
   public static Matrix getAdjoin(Matrix M) {
-    /* KAMUS */
+    /* KAMUS LOKAL */
     int i, j;
     int sign = 1;
     double cofactor;
     Matrix cof = new Matrix(M.getRow(), M.getCol());
     Matrix tempcof = new Matrix(M.getRow(), M.getCol());
+
     /* ALGORITMA */
     // Basis kalau ukuran 3x3
     for (i = 0; i < M.getRow(); i++) {
@@ -68,15 +71,16 @@ public class Inverse {
     return (cof.transpose(cof));
   }
 
+  /* Menghasilkan matriks inverse menggunakan cara Adjoin */
   public static Matrix adjoinInverse(Matrix M) {
-    // KAMUS
+    /* KAMUS LOKAL */
     int i, j;
     Matrix norminverse = new Matrix(M.getRow(), M.getCol());
     Matrix adj = new Matrix(M.getRow(), M.getCol());
     Matrix inverse = new Matrix(M.getRow(), M.getCol());
     double valueInv, det;
 
-    // ALGORITMA
+    /* ALGORITMA */
     // Ambil matriks adjoin dari M dan masukkan ke adj
     adj = getAdjoin(M);
 
@@ -111,13 +115,14 @@ public class Inverse {
     return inverse;
   }
 
+  /* Menghasilkan matriks inverse menggunakan cara Gauss-Jordan */
   public static Matrix gaussInverse(Matrix M) {
-    // KAMUS LOKAL
+    /* KAMUS LOKAL */
     int i, j, k;
     Matrix Mkiri = new Matrix(M.getRow(), M.getCol());
     Matrix Mkanan = new Matrix(M.getRow(), M.getCol());
 
-    // ALGORITMA
+    /* ALGORITMA */
     M.copyMatrix(Mkiri);
     M.copyMatrix(Mkanan);
     // Matrix kanan dijadikan matrix identitas
