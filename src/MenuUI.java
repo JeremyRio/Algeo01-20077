@@ -48,8 +48,8 @@ class MenuUI {
         case "1":
           System.out.println();
           System.out.println("============== SPL ==============");
-          System.out.println("1. Metode eleminasi Gauss");
-          System.out.println("2. Metode eleminasi Gauss-Jordan");
+          System.out.println("1. Metode eliminasi Gauss");
+          System.out.println("2. Metode eliminasi Gauss-Jordan");
           System.out.println("3. Metode matriks balikan");
           System.out.println("4. Kaidah Cramer");
           System.out.println("0. Kembali ke menu utama");
