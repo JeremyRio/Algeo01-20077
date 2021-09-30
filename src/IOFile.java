@@ -124,11 +124,12 @@ public class IOFile {
 
   // Menampilkan display Save
   public static void displaySave() {
-    System.out.println("==================================");
+    System.out.println();
+    System.out.println("=======================================================");
     System.out.println("Apakah keluaran ingin disimpan dalam folder \"output\"?");
     System.out.println("1. Iya");
     System.out.println("2. Tidak");
-    System.out.println("==================================");
+    System.out.println("=======================================================");
     System.out.print(">Masukan: ");
   }
 
