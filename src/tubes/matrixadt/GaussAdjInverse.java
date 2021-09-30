@@ -275,6 +275,9 @@ public class GaussAdjInverse {
 
         // Array untuk menyimpan solusi dalam bentuk string
         String Eq[] = new String[M.getCol()-1];
+
+        // Array untuk handle bagian parametrik dibawah
+        String[] answer = new String[2];
         int i,j,k;
         float cValue, tempValue = 0;
         String cParam;
@@ -282,7 +285,6 @@ public class GaussAdjInverse {
         /* ALGORITMA */
         // Hitung dari paling bawah dan iterasi ke atas
         for (i=M.getRow()-1;i>=0;i--) {
-            
             // Jika ada baris yang isinya 0, skip baris itu dan lanjut iterasi ke atas
             if (Matrix.isRowZero(M, i)) {
                 continue;
@@ -349,9 +351,7 @@ public class GaussAdjInverse {
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
                                     cParam += "-" + Eq[j] + "";
                                 } else { // Jika nilai koefisien bukan 1, maka perlu ditulis koefisien itu
-                                    tempValue = M.getELMT(i, j);
                                     cParam += "-" + Math.abs(M.getELMT(i, j)) + Eq[j];
-                                    System.out.println(tempValue);
                                 }
                             } else { // Jika nilai negatif, maka persamaan akan menjadi positif, karena berubah tanda melewati =
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
@@ -367,13 +367,38 @@ public class GaussAdjInverse {
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
                                     cParam += "-" + "(" + Eq[j] + ")";
                                 } else {
-                                    cParam += "-" + Math.abs(M.getELMT(i, j)) + "(" +  Eq[j] + ")";
+                                    // Coba untuk mendapatkan perkalian substitusi, misal x3 = -2q dan x1 = 2x3, maka x1 = 2(-2q) = -4q
+                                    try {
+                                        answer = Matrix.stripNonDigits(Eq[j]);
+                                        tempValue = (M.getELMT(i, j)) * (Float.parseFloat(answer[0]));
+                                        if (tempValue > 0) {
+                                            cParam += "+" +  Math.abs(tempValue) + answer[1];
+                                        } else {
+                                            cParam += "-" +  Math.abs(tempValue) + answer[1];
+                                        }
+                                    // Jika error, maka akan output seperti biasa dan dihitung manual
+                                    } catch(Exception e) {
+                                        cParam += "-" + Math.abs(M.getELMT(i, j)) + "(" +  Eq[j] + ")";
+                                    }
                                 }
                             } else {
                                 if (Math.abs(M.getELMT(i, j)) == 1) {
                                     cParam += "+" + "(" + Eq[j] + ")";
                                 } else {
-                                    cParam += "+" +  Math.abs(M.getELMT(i, j)) + "(" + Eq[j] + ")";
+                                    try {
+                                        answer = Matrix.stripNonDigits(Eq[j]);
+                                        tempValue = (M.getELMT(i, j)) * (-1) * (Float.parseFloat(answer[0]));
+                                        if (tempValue > 0) {
+                                            cParam += "+" +  Math.abs(tempValue) + answer[1];
+                                        } else {
+                                            cParam += "-" +  Math.abs(tempValue) + answer[1];
+                                        }
+                                    } catch(Exception e) {
+                                        cParam += "+" + Math.abs(M.getELMT(i, j)) + "(" +  Eq[j] + ")";
+                                    }
+                                    
+                                    
+                                    
                                 }
                             }
                         }

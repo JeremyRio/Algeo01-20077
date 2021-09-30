@@ -185,5 +185,22 @@ public class Matrix {
         j++;
     }
     return flag;
-}
+  }
+
+  public static String[] stripNonDigits (String x) {
+    final String[] out = new String[2];
+    final StringBuilder sb1 = new StringBuilder(x.length());
+    final StringBuilder sb2 = new StringBuilder(x.length());
+
+    for (int i=0;i<x.length();i++) {
+        final char c = x.charAt(i);
+        if ((c == 45) || (c == 46) || (c > 47 && c < 58)) {
+            out[0] = (sb1.append(c)).toString();
+        }
+        if ((c > 96) && (c < 123)) {
+            out[1] = (sb2.append(c)).toString();
+        }
+    }
+    return (out);
+  }
 }
