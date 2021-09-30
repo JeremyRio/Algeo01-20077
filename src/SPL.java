@@ -256,16 +256,21 @@ public class SPL {
 
     }
 
+    // Fungsi untuk menghasilkan array pecahan sebuah parametrik, contoh 8.00p dipecah menjadi [8.00, p]
     public static String[] stripNonDigits (String x) {
         final String[] out = new String[2];
+        // Membuat sebuah string builder dengan kapasitas panjang x, kalau x = 8.00p, maka panjangnya 5
         final StringBuilder sb1 = new StringBuilder(x.length());
         final StringBuilder sb2 = new StringBuilder(x.length());
     
         for (int i=0;i<x.length();i++) {
             final char c = x.charAt(i);
+            // Menggunakan ASCII value
+            // Elemen yang diterima adalah ".", "-", dan angka
             if ((c == 45) || (c == 46) || (c > 47 && c < 58)) {
                 out[0] = (sb1.append(c)).toString();
             }
+            // Elemen yang diterima adalah semua huruf kecil
             if ((c > 96) && (c < 123)) {
                 out[1] = (sb2.append(c)).toString();
             }
