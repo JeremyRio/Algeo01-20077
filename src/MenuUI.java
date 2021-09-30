@@ -115,7 +115,7 @@ class MenuUI {
 
               case "4":
                 if ((ab.getCol() - 1 != ab.getRow())) {
-                  temp = "Metode tidak dapat digunakan karena tidak bisa dicari determinan";
+                  temp = "Metode tidak dapat digunakan karena determinan tidak dapat dikalkulasi";
                   System.out.println(temp);
                   IOFile.saveFile(temp);
                 } else {
