@@ -30,7 +30,7 @@ $ git clone https://github.com/JeremyRio/Algeo01-20077.git
 
 *Ada dua cara untuk melakukan instalasi program, yaitu:*
 ### 1. Menggunakan .jar library
-
+- [Baca cara penggunaan di sini](https://docs.google.com/document/d/1PMAWmRwJWDxBSBkY-S54BpKTzQ5K8s9Gomkzsg7dseg/edit)
 
 ### 2. Tidak Menggunakan .jar library
 - Buka Terminal Operating System (Command Prompt untuk **Windows**)
