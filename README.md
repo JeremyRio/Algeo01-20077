@@ -49,11 +49,17 @@ $ java -cp bin MenuUI
 Bagi yang menggunakan **Windows** Operating System, program dapat dijalankan melalui file `Run.bat`
 
 ## Penggunaan (Usage)
-### Membaca program lewat file **.txt**
-Jika ingin menggunakan fungsi baca program lewat file **.txt**, diperlukan `classpath` untuk membaca file tersebut. <br />
+### Membaca input lewat file **.txt**
+Jika ingin menggunakan fungsi baca program lewat file **.txt**, diperlukan `classpath` untuk membaca file tersebut <br />
 Contohnya: `test/studikasus_1a.txt`
 
 *Default classpath berada pada folder repository `Algeo01-2007`*
+
+### Output file **.txt**
+File yang ingin disimpan melalui program terletak pada folder `output` <br />
+
+Nama file yang ingin disimpan diperlukan ekstensi **.txt** <br />
+Contohnya: `hasilkasus_1a.txt`
 
 ## Penulis
 <table>
