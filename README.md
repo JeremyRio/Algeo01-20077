@@ -16,7 +16,9 @@ metode matriks balikan, dan kaidah Cramer (khusus untuk SPL dengan n peubah dan 
 ## Instalasi
 ### Prasyarat (Prerequisites)
 
-**Clone repository ini menggunakan command berikut (git bash)**
+**[ PASTIKAN CABANG REPOSITORY BERADA DI `main`, BUKAN YANG LAIN! ]** <br />
+
+**Clone repository ini menggunakan command berikut (git bash):**
 ```
 $ git clone https://github.com/JeremyRio/Algeo01-20077.git
 ```
