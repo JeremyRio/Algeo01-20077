@@ -56,7 +56,7 @@ Bagi yang menggunakan **Windows** Operating System, program dapat dijalankan mel
 Jika ingin menggunakan fungsi baca program lewat file **.txt**, diperlukan `classpath` untuk membaca file tersebut <br />
 Contohnya: `test/studikasus_1a.txt`
 
-*Default classpath berada pada folder repository `Algeo01-2007`*
+*Default classpath berada pada folder repository `Algeo01-20077`*
 
 ### Output file **.txt**
 File yang ingin disimpan melalui program terletak pada folder `output` <br />
