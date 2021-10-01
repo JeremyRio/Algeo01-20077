@@ -20,12 +20,15 @@ metode matriks balikan, dan kaidah Cramer (khusus untuk SPL dengan n peubah dan 
 ```
 $ git clone https://github.com/JeremyRio/Algeo01-20077.git
 ```
+
 **Download dan install:**
 - [Java](https://www.java.com/en/download/)
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/downloads/)
 
 *Ada dua cara untuk melakukan instalasi program, yaitu:*
 ### 1. Menggunakan .jar library
+
+
 ### 2. Tidak Menggunakan .jar library
 - Buka Terminal Operating System (Command Prompt untuk **Windows**)
 - Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
@@ -33,19 +36,24 @@ $ git clone https://github.com/JeremyRio/Algeo01-20077.git
 ```
 $ javac -cp src src\*.java -d bin
 ```
-## Eksekusi Program
 
+## Eksekusi Program
 - Buka Terminal Operating System (Command Prompt untuk **Windows**)
-- Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
+- Arahkan direktori ke dalam folder repository `Algeo01-20077`
 - Jalankan command:
 ```
 $ java -cp bin MenuUI
 ```
 
 ### Opsional
-Untuk yang menggunakan **Windows** Operating System dapat menjalankan programnya dengan menjalankan file `Run.bat`
+Bagi yang menggunakan **Windows** Operating System, program dapat dijalankan melalui file `Run.bat`
 
 ## Penggunaan (Usage)
+### Membaca program lewat file **.txt**
+Jika ingin menggunakan fungsi baca program lewat file **.txt**, diperlukan `classpath` untuk membaca file tersebut. <br />
+Contohnya: `test/studikasus_1a.txt`
+
+*Default classpath berada pada folder repository `Algeo01-2007`*
 
 ## Penulis
 <table>
