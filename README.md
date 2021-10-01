@@ -1,7 +1,8 @@
 # Tugas Besar I IF 2123 Aljabar Linier dan Geometri Sistem Persamaan Linier, Determinan, dan Aplikasinya 
 **_Program Ini Dibuat Untuk Memenuhi Tugas Perkuliahan Mata Kuliah Aljabar Linier dan Geometri (IF2123)_**
 <p align="center">
-Teknik Informatika<br/>
+Prodi Teknik Informatika <br/>
+Sekolah Teknik Elektro dan Informatika<br/>
 Institut Teknologi Bandung<br/>
 Semester I Tahun 2021/2022<br/>
 </p>
