@@ -26,9 +26,22 @@ Download dan install:
 - Buka Terminal Operating System (Command Prompt untuk **Windows**)
 - Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
 - Jalankan command:
-```sh
+```
 javac -cp src src\*.java -d bin
 ```
+## Eksekusi Program
+
+- Buka Terminal Operating System (Command Prompt untuk **Windows**)
+- Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
+- Jalankan command:
+```
+java -cp bin MenuUI
+```
+
+### Opsional
+Untuk yang menggunakan **Windows** Operating System dapat menjalankan programnya dengan menjalankan file `Run.bat`
+
+## Penggunaan (Usage)
 
 ## Penulis
 <table>
