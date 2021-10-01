@@ -27,7 +27,7 @@ Download dan install:
 - Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
 - Jalankan command:
 ```sh
-
+javac -cp src src\*.java -d bin
 ```
 
 ## Penulis
