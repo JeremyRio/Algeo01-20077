@@ -15,8 +15,12 @@ metode matriks balikan, dan kaidah Cramer (khusus untuk SPL dengan n peubah dan 
 
 ## Instalasi
 ### Prasyarat (Prerequisites)
-Download dan install:
-- Semua file dalam repository github ini
+
+**Clone repository ini menggunakan command berikut (git bash)**
+```
+$ git clone https://github.com/JeremyRio/Algeo01-20077.git
+```
+**Download dan install:**
 - [Java](https://www.java.com/en/download/)
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/downloads/)
 
@@ -27,7 +31,7 @@ Download dan install:
 - Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
 - Jalankan command:
 ```
-javac -cp src src\*.java -d bin
+$ javac -cp src src\*.java -d bin
 ```
 ## Eksekusi Program
 
@@ -35,7 +39,7 @@ javac -cp src src\*.java -d bin
 - Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
 - Jalankan command:
 ```
-java -cp bin MenuUI
+$ java -cp bin MenuUI
 ```
 
 ### Opsional
