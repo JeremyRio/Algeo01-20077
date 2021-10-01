@@ -31,7 +31,7 @@ $ git clone https://github.com/JeremyRio/Algeo01-20077.git
 
 ### 2. Tidak Menggunakan .jar library
 - Buka Terminal Operating System (Command Prompt untuk **Windows**)
-- Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
+- Arahkan direktori ke dalam folder repository `Algeo01-20077`
 - Jalankan command:
 ```
 $ javac -cp src src\*.java -d bin
