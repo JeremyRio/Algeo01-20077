@@ -13,15 +13,22 @@ Program ini digunakan untuk:
 metode matriks balikan, dan kaidah Cramer (khusus untuk SPL dengan n peubah dan n persamaan). 
 - Menyelesaikan berbagai persoalan yang dimodelkan dalam bentuk SPL, persoalan interpolasi, dan persoalan regresi. 
 
-## Installation
-### Prerequisites
+## Instalasi
+### Prasyarat (Prerequisites)
 Download dan install:
+- Semua file dalam repository github ini
 - [Java](https://www.java.com/en/download/)
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/downloads/)
 
 *Ada dua cara untuk melakukan instalasi program, yaitu:*
-### Menggunakan .jar library
-### Menggunakan terminal
+### 1. Menggunakan .jar library
+### 2. Tidak Menggunakan .jar library
+- Buka Terminal Operating System (Command Prompt untuk **Windows**)
+- Arahkan direktori ke dalam folder repository (**Algeo01-20077**)
+- Jalankan command:
+```sh
+
+```
 
 ## Penulis
 <table>
